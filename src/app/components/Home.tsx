@@ -197,7 +197,7 @@ function FeatureCarousel() {
   return (
     <div className="relative select-none">
       {/* Viewport — clips the side cards */}
-      <div className="relative overflow-hidden" style={{ height: 460 }}>
+      <div className="relative overflow-hidden" style={{ height: 520 }}>
         <div className="absolute inset-0 flex items-center justify-center">
           {features.map((feature, i) => {
             const pos = getPos(i);
@@ -225,7 +225,7 @@ function FeatureCarousel() {
                       ? "border border-gray-200 shadow-[0_28px_70px_rgba(0,33,71,0.16)]"
                       : "border border-gray-100 shadow-md"
                   }`}
-                  style={{ height: 430 }}
+                  style={{ height: 500 }}
                 >
                   {/* Faded number watermark */}
                   <div
@@ -249,13 +249,13 @@ function FeatureCarousel() {
                     {/* Title */}
                     <h3
                       className="text-[var(--midnight-blue)] mb-4"
-                      style={{ fontSize: "1.6rem", fontWeight: 800, lineHeight: 1.2 }}
+                      style={{ fontSize: "2.25rem", fontWeight: 800, lineHeight: 1.15 }}
                     >
                       {feature.title}
                     </h3>
 
                     {/* Description */}
-                    <p className="text-[var(--midnight-blue)]/55 text-base flex-1" style={{ lineHeight: 1.75 }}>
+                    <p className="text-[var(--midnight-blue)]/55 flex-1" style={{ fontSize: "1.15rem", lineHeight: 1.72 }}>
                       {feature.description}
                     </p>
                   </div>
