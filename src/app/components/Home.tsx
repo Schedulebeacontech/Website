@@ -31,7 +31,7 @@ import heroVideoWebm from "../../imports/hero-demo.webm";
 
 function HeroVisual() {
   return (
-    <div className="relative py-6">
+    <div className="relative py-6 overflow-hidden">
       {/* Dot-grid decoration — top-right corner */}
       <div
         className="absolute top-0 right-0 w-40 h-40 opacity-[0.15] pointer-events-none"
@@ -72,12 +72,12 @@ function HeroVisual() {
         </video>
       </div>
 
-      {/* Floating stat — bottom left */}
+      {/* Floating stat — bottom left (kept inside bounds) */}
       <motion.div
         initial={{ opacity: 0, x: -14 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.5, delay: 1.0 }}
-        className="absolute bottom-0 -left-2 z-20 bg-white rounded-xl shadow-xl p-3 border border-gray-100 flex items-center gap-2.5"
+        className="absolute bottom-0 left-3 z-20 bg-white rounded-xl shadow-xl p-3 border border-gray-100 flex items-center gap-2.5"
       >
         <div className="w-9 h-9 bg-emerald-50 rounded-lg flex items-center justify-center shrink-0">
           <CheckCircle className="w-4 h-4 text-emerald-500" />
@@ -93,7 +93,7 @@ function HeroVisual() {
         initial={{ opacity: 0, x: 14 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.5, delay: 1.2 }}
-        className="absolute top-0 right-0 z-20 bg-[var(--midnight-blue)] rounded-xl shadow-xl p-3 flex items-center gap-2.5"
+        className="absolute top-0 right-3 z-20 bg-[var(--midnight-blue)] rounded-xl shadow-xl p-3 flex items-center gap-2.5"
       >
         <div className="w-9 h-9 bg-[var(--university-gold)]/15 rounded-lg flex items-center justify-center shrink-0">
           <Zap className="w-4 h-4 text-[var(--university-gold)]" />
@@ -152,30 +152,30 @@ const steps = [
 const problems = [
   {
     icon: Clock,
-    text: "Scheduling consumes weeks of admin time every year, pulling staff away from students.",
+    text: "Scheduling consumes weeks, sometimes months, of staff time every single year, pulling administrators away from what matters most.",
   },
   {
     icon: AlertTriangle,
-    text: "Spreadsheets and legacy tools buckle under the weight of real scheduling complexity.",
+    text: "Spreadsheets and legacy tools can't handle the complexity of constraints, conflicts, and student needs at scale.",
   },
   {
     icon: XCircle,
-    text: "Students miss courses they need and inequities go undetected until it's too late.",
+    text: "Without the right process, students miss courses they need and inequities go undetected until it's too late to fix.",
   },
 ];
 
 const solutions = [
   {
     icon: HeartHandshake,
-    text: "Counselors and admins get their time back — Schedule Beacon handles the complexity.",
+    text: "Schedule Beacon eliminates the scheduling headache, giving counselors and administrators their time back to focus on students, not spreadsheets.",
   },
   {
     icon: Lightbulb,
-    text: "Purpose-built algorithms optimize across every constraint automatically.",
+    text: "Purpose-built technology handles the complexity for you, optimizing across hundreds of variables automatically.",
   },
   {
     icon: GraduationCap,
-    text: "Every student lands in the right seat — better schedules mean brighter futures.",
+    text: "When schedules are built on the right technology, students get into the right classes. Better schedules lead directly to brighter futures.",
   },
 ];
 
@@ -214,12 +214,12 @@ export function Home() {
               transition={{ duration: 0.7 }}
             >
               <h1
-                className="text-5xl lg:text-6xl text-[var(--midnight-blue)] mb-6 tracking-tight"
-                style={{ lineHeight: 1.08, fontWeight: 800 }}
+                className="text-4xl lg:text-[2.6rem] text-[var(--midnight-blue)] mb-6 tracking-tight"
+                style={{ lineHeight: 1.12, fontWeight: 800 }}
               >
-                The Better Way to Build{" "}
+                The Better Way to Build
+                <br />
                 <span
-                  className="whitespace-nowrap"
                   style={{
                     background: "linear-gradient(135deg, #002147 0%, #1a5fa8 100%)",
                     WebkitBackgroundClip: "text",
