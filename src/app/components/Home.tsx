@@ -506,7 +506,7 @@ export function Home() {
       </section>
 
       {/* ── Founder Story ────────────────────────────────────── */}
-      <section className="py-20 bg-white relative overflow-hidden">
+      <section className="py-20 bg-[var(--soft-grey)] relative overflow-hidden">
         <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-transparent via-[var(--university-gold)] to-transparent" />
         <div className="max-w-6xl mx-auto px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
@@ -518,7 +518,7 @@ export function Home() {
               viewport={{ once: true }}
               transition={{ duration: 0.7 }}
             >
-              <span className="inline-block text-sm text-[var(--midnight-blue)]/50 bg-[var(--soft-grey)] px-4 py-1.5 rounded-full mb-8" style={{ fontWeight: 600 }}>
+              <span className="inline-block text-sm text-[var(--midnight-blue)]/50 bg-white px-4 py-1.5 rounded-full mb-8" style={{ fontWeight: 600 }}>
                 OUR STORY
               </span>
 
@@ -755,7 +755,7 @@ export function Home() {
       </section>
 
       {/* ── Testimonials ─────────────────────────────────────── */}
-      <section className="py-24 bg-[var(--soft-grey)]">
+      <section className="py-24 bg-white">
         <div className="max-w-7xl mx-auto px-6">
           <motion.div
             className="text-center mb-12"
@@ -764,7 +764,7 @@ export function Home() {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <span className="inline-block text-sm text-[var(--midnight-blue)]/50 bg-white px-4 py-1.5 rounded-full mb-4" style={{ fontWeight: 600 }}>
+            <span className="inline-block text-sm text-[var(--midnight-blue)]/50 bg-[var(--soft-grey)] px-4 py-1.5 rounded-full mb-4" style={{ fontWeight: 600 }}>
               TESTIMONIALS
             </span>
             <h2 className="text-4xl text-[var(--midnight-blue)]">
