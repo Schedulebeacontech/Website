@@ -29,6 +29,7 @@ import logoIcon from "figma:asset/5671362e46764389b665ff1fad478cea5f46eaa8.png";
 import lighthouseImage from "figma:asset/a6b99a5a06add249a1b0b121e419659629d67ecb.png";
 import heroVideoMp4 from "../../imports/hero-demo.mp4";
 import heroVideoWebm from "../../imports/hero-demo.webm";
+import foundersPhoto from "../../assets/founders.jpg";
 
 function HeroVisual() {
   return (
@@ -504,6 +505,81 @@ export function Home() {
         </div>
       </section>
 
+      {/* ── Founder Story ────────────────────────────────────── */}
+      <section className="py-20 bg-white relative overflow-hidden">
+        <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-transparent via-[var(--university-gold)] to-transparent" />
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+
+            {/* Left — story text */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7 }}
+            >
+              <span className="inline-block text-sm text-[var(--midnight-blue)]/50 bg-[var(--soft-grey)] px-4 py-1.5 rounded-full mb-8" style={{ fontWeight: 600 }}>
+                OUR STORY
+              </span>
+
+              <div className="text-[var(--university-gold)] mb-3" style={{ fontSize: "3.5rem", lineHeight: 1, fontFamily: "Georgia, serif", opacity: 0.4 }}>
+                "
+              </div>
+
+              <div className="space-y-5 mb-10">
+                <p className="text-xl lg:text-2xl text-[var(--midnight-blue)]" style={{ lineHeight: 1.6 }}>
+                  Robby and Chris were working on a business research project while at Alfred University when they came across the issue of master scheduling.
+                </p>
+                <p className="text-lg text-[var(--midnight-blue)]/65" style={{ lineHeight: 1.7 }}>
+                  Both of them had observed challenges with scheduling while they were in school, and after interviewing hundreds of counselors, administrators, and superintendents across the US, they realized the problem was wide-spread.
+                </p>
+                <p className="text-lg text-[var(--midnight-blue)]/65" style={{ lineHeight: 1.7 }}>
+                  Schedule Beacon was born as a way to return valuable time back to faculty, while optimizing district resources to allow students more pathways to success.
+                </p>
+              </div>
+
+              <div className="flex items-center gap-4">
+                <div className="flex -space-x-2">
+                  <div className="w-10 h-10 rounded-full bg-[var(--midnight-blue)] text-white text-sm flex items-center justify-center ring-2 ring-white" style={{ fontWeight: 700 }}>
+                    R
+                  </div>
+                  <div className="w-10 h-10 rounded-full bg-[var(--university-gold)] text-[var(--midnight-blue)] text-sm flex items-center justify-center ring-2 ring-white" style={{ fontWeight: 700 }}>
+                    C
+                  </div>
+                </div>
+                <div>
+                  <div className="text-[var(--midnight-blue)] text-sm" style={{ fontWeight: 600 }}>Robby &amp; Chris</div>
+                  <div className="text-[var(--midnight-blue)]/45 text-xs">Co-Founders, Schedule Beacon</div>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Right — founders photo */}
+            <motion.div
+              initial={{ opacity: 0, x: 24 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7, delay: 0.15 }}
+              className="relative"
+            >
+              {/* Decorative gold accent behind image */}
+              <div className="absolute -bottom-4 -right-4 w-full h-full rounded-2xl bg-[var(--university-gold)]/15 -z-10" />
+              <img
+                src={foundersPhoto}
+                alt="Robby and Chris, co-founders of Schedule Beacon"
+                className="w-full rounded-2xl shadow-[0_16px_48px_rgba(0,33,71,0.14)] object-cover"
+                style={{ maxHeight: 380, objectPosition: "center 20%" }}
+              />
+              {/* Subtle caption */}
+              <p className="text-center text-xs text-[var(--midnight-blue)]/35 mt-3 tracking-wide">
+                Alfred University — where it all started
+              </p>
+            </motion.div>
+
+          </div>
+        </div>
+      </section>
+
       {/* ── Features ─────────────────────────────────────────── */}
       <section className="py-24 bg-white">
         <div className="max-w-7xl mx-auto px-6">
@@ -674,59 +750,6 @@ export function Home() {
               See It in Action
               <ArrowRight className="w-4 h-4" />
             </Link>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* ── Founder Story ────────────────────────────────────── */}
-      <section className="py-20 bg-white relative overflow-hidden">
-        <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-transparent via-[var(--university-gold)] to-transparent" />
-        <div className="max-w-4xl mx-auto px-6">
-          <motion.div
-            className="text-center"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7 }}
-          >
-            <span className="inline-block text-sm text-[var(--midnight-blue)]/50 bg-[var(--soft-grey)] px-4 py-1.5 rounded-full mb-8" style={{ fontWeight: 600 }}>
-              OUR STORY
-            </span>
-
-            <div className="text-[var(--university-gold)] mb-4" style={{ fontSize: "4rem", lineHeight: 1, fontFamily: "Georgia, serif", opacity: 0.4 }}>
-              "
-            </div>
-
-            <div className="space-y-5 mb-10">
-              <p className="text-xl lg:text-2xl text-[var(--midnight-blue)]" style={{ lineHeight: 1.6 }}>
-                Robby and Chris were working on a business research project while at Alfred University when they came across the issue of master scheduling.
-              </p>
-              <p className="text-lg text-[var(--midnight-blue)]/65" style={{ lineHeight: 1.7 }}>
-                Both of them had observed challenges with scheduling while they were in school, and after interviewing hundreds of counselors, administrators, and superintendents across the US, they realized the problem was wide-spread.
-              </p>
-              <p className="text-lg text-[var(--midnight-blue)]/65" style={{ lineHeight: 1.7 }}>
-                Schedule Beacon was born as a way to return valuable time back to faculty, while optimizing district resources to allow students more pathways to success.
-              </p>
-            </div>
-
-            <div className="flex items-center justify-center gap-6">
-              <div className="h-px w-16 bg-[var(--midnight-blue)]/15" />
-              <div className="flex items-center gap-3">
-                <div className="flex -space-x-2">
-                  <div className="w-10 h-10 rounded-full bg-[var(--midnight-blue)] text-white text-sm flex items-center justify-center ring-2 ring-white" style={{ fontWeight: 700 }}>
-                    R
-                  </div>
-                  <div className="w-10 h-10 rounded-full bg-[var(--university-gold)] text-[var(--midnight-blue)] text-sm flex items-center justify-center ring-2 ring-white" style={{ fontWeight: 700 }}>
-                    C
-                  </div>
-                </div>
-                <div className="text-left">
-                  <div className="text-[var(--midnight-blue)] text-sm" style={{ fontWeight: 600 }}>Robby &amp; Chris</div>
-                  <div className="text-[var(--midnight-blue)]/45 text-xs">Co-Founders, Schedule Beacon</div>
-                </div>
-              </div>
-              <div className="h-px w-16 bg-[var(--midnight-blue)]/15" />
-            </div>
           </motion.div>
         </div>
       </section>
