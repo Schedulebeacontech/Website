@@ -197,39 +197,39 @@ function FeatureCarousel() {
   return (
     <div className="relative select-none">
       {/* Viewport — clips the side cards */}
-      <div className="relative overflow-hidden" style={{ height: 420 }}>
+      <div className="relative overflow-hidden" style={{ height: 460 }}>
         <div className="absolute inset-0 flex items-center justify-center">
           {features.map((feature, i) => {
             const pos = getPos(i);
             const isCenter = pos === "center";
-            const xVal = pos === "center" ? 0 : pos === "right" ? 430 : -430;
+            const xVal = pos === "center" ? 0 : pos === "right" ? 520 : -520;
 
             return (
               <motion.div
                 key={feature.title}
                 className="absolute"
-                style={{ width: 500, cursor: isCenter ? "default" : "pointer" }}
+                style={{ width: 540, cursor: isCenter ? "default" : "pointer" }}
                 animate={{
                   x: xVal,
-                  scale: isCenter ? 1 : 0.76,
-                  opacity: isCenter ? 1 : 0.38,
+                  scale: isCenter ? 1 : 0.72,
+                  opacity: isCenter ? 1 : 0.18,
                   zIndex: isCenter ? 10 : 5,
-                  filter: isCenter ? "blur(0px)" : "blur(1.5px)",
+                  filter: isCenter ? "blur(0px)" : "blur(2px)",
                 }}
                 transition={{ duration: 0.5, ease: [0.32, 0.72, 0, 1] }}
                 onClick={() => { if (!isCenter) setActive(i); }}
               >
                 <div
-                  className={`relative bg-white rounded-2xl p-8 transition-shadow ${
+                  className={`relative bg-white rounded-2xl p-10 transition-shadow ${
                     isCenter
                       ? "border border-gray-200 shadow-[0_28px_70px_rgba(0,33,71,0.16)]"
                       : "border border-gray-100 shadow-md"
                   }`}
-                  style={{ height: 390 }}
+                  style={{ height: 430 }}
                 >
                   {/* Faded number watermark */}
                   <div
-                    className="absolute right-6 top-4 text-[5.5rem] font-black text-[var(--midnight-blue)] leading-none select-none pointer-events-none"
+                    className="absolute right-6 top-4 text-[6rem] font-black text-[var(--midnight-blue)] leading-none select-none pointer-events-none"
                     style={{ opacity: 0.04 }}
                   >
                     {String(i + 1).padStart(2, "0")}
@@ -242,20 +242,20 @@ function FeatureCarousel() {
 
                   <div className="relative z-10 h-full flex flex-col">
                     {/* Icon */}
-                    <div className={`w-13 h-13 w-12 h-12 rounded-xl flex items-center justify-center mb-5 ${feature.color}`}>
-                      <feature.icon className="w-5 h-5" />
+                    <div className={`w-14 h-14 rounded-xl flex items-center justify-center mb-6 ${feature.color}`}>
+                      <feature.icon className="w-6 h-6" />
                     </div>
 
                     {/* Title */}
                     <h3
-                      className="text-[var(--midnight-blue)] mb-3"
-                      style={{ fontSize: "1.15rem", fontWeight: 700, lineHeight: 1.3 }}
+                      className="text-[var(--midnight-blue)] mb-4"
+                      style={{ fontSize: "1.6rem", fontWeight: 800, lineHeight: 1.2 }}
                     >
                       {feature.title}
                     </h3>
 
                     {/* Description */}
-                    <p className="text-[var(--midnight-blue)]/55 text-sm flex-1" style={{ lineHeight: 1.78 }}>
+                    <p className="text-[var(--midnight-blue)]/55 text-base flex-1" style={{ lineHeight: 1.75 }}>
                       {feature.description}
                     </p>
                   </div>
