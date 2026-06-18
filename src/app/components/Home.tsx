@@ -136,7 +136,7 @@ const steps = [
   {
     number: "01",
     title: "Import Your Data",
-    description: "Connect your SIS and Schedule Beacon automatically pulls in students, courses, teachers, and room data.",
+    description: "Import your students, courses, teachers, and room data via CSV to get started.",
   },
   {
     number: "02",
