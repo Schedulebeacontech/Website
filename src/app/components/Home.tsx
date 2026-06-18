@@ -13,6 +13,7 @@ import {
   RefreshCw,
   TrendingUp as _TrendingUp,
   ChevronRight,
+  ChevronLeft,
   XCircle,
   Clock,
   AlertTriangle,
@@ -178,6 +179,130 @@ const solutions = [
     text: "When schedules are built on the right technology, students get into the right classes. Better schedules lead directly to brighter futures.",
   },
 ];
+
+function FeatureCarousel() {
+  const [active, setActive] = React.useState(0);
+  const total = features.length;
+
+  const getPos = (i: number): "center" | "left" | "right" => {
+    const d = (i - active + total) % total;
+    if (d === 0) return "center";
+    if (d === 1) return "right";
+    return "left";
+  };
+
+  const goNext = () => setActive((a) => (a + 1) % total);
+  const goPrev = () => setActive((a) => (a + total - 1) % total);
+
+  return (
+    <div className="relative select-none">
+      {/* Viewport — clips the side cards */}
+      <div className="relative overflow-hidden" style={{ height: 420 }}>
+        <div className="absolute inset-0 flex items-center justify-center">
+          {features.map((feature, i) => {
+            const pos = getPos(i);
+            const isCenter = pos === "center";
+            const xVal = pos === "center" ? 0 : pos === "right" ? 430 : -430;
+
+            return (
+              <motion.div
+                key={feature.title}
+                className="absolute"
+                style={{ width: 500, cursor: isCenter ? "default" : "pointer" }}
+                animate={{
+                  x: xVal,
+                  scale: isCenter ? 1 : 0.76,
+                  opacity: isCenter ? 1 : 0.38,
+                  zIndex: isCenter ? 10 : 5,
+                  filter: isCenter ? "blur(0px)" : "blur(1.5px)",
+                }}
+                transition={{ duration: 0.5, ease: [0.32, 0.72, 0, 1] }}
+                onClick={() => { if (!isCenter) setActive(i); }}
+              >
+                <div
+                  className={`relative bg-white rounded-2xl p-8 transition-shadow ${
+                    isCenter
+                      ? "border border-gray-200 shadow-[0_28px_70px_rgba(0,33,71,0.16)]"
+                      : "border border-gray-100 shadow-md"
+                  }`}
+                  style={{ height: 390 }}
+                >
+                  {/* Faded number watermark */}
+                  <div
+                    className="absolute right-6 top-4 text-[5.5rem] font-black text-[var(--midnight-blue)] leading-none select-none pointer-events-none"
+                    style={{ opacity: 0.04 }}
+                  >
+                    {String(i + 1).padStart(2, "0")}
+                  </div>
+
+                  {/* Subtle gold sweep on active */}
+                  {isCenter && (
+                    <div className="absolute inset-0 bg-gradient-to-br from-[var(--university-gold)]/5 to-transparent rounded-2xl pointer-events-none" />
+                  )}
+
+                  <div className="relative z-10 h-full flex flex-col">
+                    {/* Icon */}
+                    <div className={`w-13 h-13 w-12 h-12 rounded-xl flex items-center justify-center mb-5 ${feature.color}`}>
+                      <feature.icon className="w-5 h-5" />
+                    </div>
+
+                    {/* Title */}
+                    <h3
+                      className="text-[var(--midnight-blue)] mb-3"
+                      style={{ fontSize: "1.15rem", fontWeight: 700, lineHeight: 1.3 }}
+                    >
+                      {feature.title}
+                    </h3>
+
+                    {/* Description */}
+                    <p className="text-[var(--midnight-blue)]/55 text-sm flex-1" style={{ lineHeight: 1.78 }}>
+                      {feature.description}
+                    </p>
+                  </div>
+                </div>
+              </motion.div>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Controls */}
+      <div className="flex items-center justify-center gap-5 mt-6">
+        <button
+          onClick={goPrev}
+          className="w-10 h-10 rounded-full border border-gray-200 bg-white shadow-sm flex items-center justify-center text-[var(--midnight-blue)]/50 hover:text-[var(--midnight-blue)] hover:border-[var(--midnight-blue)]/25 hover:shadow-md transition-all"
+          aria-label="Previous"
+        >
+          <ChevronLeft className="w-5 h-5" />
+        </button>
+
+        {/* Dot indicators */}
+        <div className="flex items-center gap-2">
+          {features.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => setActive(i)}
+              className={`rounded-full transition-all duration-300 ${
+                i === active
+                  ? "w-6 h-2.5 bg-[var(--midnight-blue)]"
+                  : "w-2.5 h-2.5 bg-gray-300 hover:bg-gray-400"
+              }`}
+              aria-label={`Go to feature ${i + 1}`}
+            />
+          ))}
+        </div>
+
+        <button
+          onClick={goNext}
+          className="w-10 h-10 rounded-full border border-gray-200 bg-white shadow-sm flex items-center justify-center text-[var(--midnight-blue)]/50 hover:text-[var(--midnight-blue)] hover:border-[var(--midnight-blue)]/25 hover:shadow-md transition-all"
+          aria-label="Next"
+        >
+          <ChevronRight className="w-5 h-5" />
+        </button>
+      </div>
+    </div>
+  );
+}
 
 export function Home() {
   return (
@@ -405,55 +530,7 @@ export function Home() {
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {features.map((feature, i) => (
-              <motion.div
-                key={i}
-                className="group relative p-7 rounded-2xl border border-gray-100 bg-white overflow-hidden cursor-pointer"
-                initial={{ opacity: 0, y: 28 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.12 }}
-                whileHover={{ y: -6, boxShadow: "0 20px 50px rgba(0,33,71,0.12)" }}
-              >
-                {/* Large faded number watermark */}
-                <div
-                  className="absolute -right-3 -top-4 text-[6rem] font-black text-[var(--midnight-blue)] select-none pointer-events-none leading-none"
-                  style={{ opacity: 0.04 }}
-                >
-                  {String(i + 1).padStart(2, "0")}
-                </div>
-
-                {/* Hover background sweep */}
-                <div className="absolute inset-0 bg-gradient-to-br from-[var(--university-gold)]/0 to-[var(--university-gold)]/0 group-hover:from-[var(--university-gold)]/4 group-hover:to-transparent transition-all duration-500 rounded-2xl" />
-
-                <div className="relative z-10">
-                  {/* Icon */}
-                  <div className={`w-12 h-12 rounded-xl flex items-center justify-center mb-5 transition-transform duration-300 group-hover:scale-110 ${feature.color}`}>
-                    <feature.icon className="w-5 h-5" />
-                  </div>
-
-                  {/* Title */}
-                  <h3
-                    className="text-[var(--midnight-blue)] mb-3 group-hover:text-[var(--midnight-blue)] transition-colors"
-                    style={{ fontSize: "1.05rem", fontWeight: 700, lineHeight: 1.3 }}
-                  >
-                    {feature.title}
-                  </h3>
-
-                  {/* Description */}
-                  <p className="text-[var(--midnight-blue)]/55 text-sm" style={{ lineHeight: 1.75 }}>
-                    {feature.description}
-                  </p>
-
-                  {/* Learn more */}
-                  <div className="mt-5 flex items-center gap-1 text-xs font-semibold text-[var(--midnight-blue)]/35 group-hover:text-[var(--midnight-blue)]/70 group-hover:gap-2 transition-all duration-200">
-                    Learn more <ChevronRight className="w-3.5 h-3.5" />
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
+          <FeatureCarousel />
         </div>
       </section>
 
