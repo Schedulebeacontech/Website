@@ -11,7 +11,7 @@ import {
   Play,
   Shield,
   RefreshCw,
-  TrendingUp,
+  TrendingUp as _TrendingUp,
   ChevronRight,
   XCircle,
   Clock,
@@ -83,8 +83,8 @@ function HeroVisual() {
           <CheckCircle className="w-4 h-4 text-emerald-500" />
         </div>
         <div>
-          <div className="text-base font-bold text-[var(--midnight-blue)] leading-none">92.83%</div>
-          <div className="text-[11px] text-gray-400 mt-0.5">Fulfillment Rate</div>
+          <div className="text-[11px] font-bold text-[var(--midnight-blue)] leading-tight">Help you achieve higher</div>
+          <div className="text-[11px] font-bold text-emerald-500 leading-tight">fulfillment rates</div>
         </div>
       </motion.div>
 
@@ -123,11 +123,11 @@ const features = [
     color: "bg-amber-50 text-amber-600",
   },
   {
-    icon: TrendingUp,
-    title: "SIS Integration",
+    icon: AlertTriangle,
+    title: "Conflict Identification & Resolution",
     description:
-      "Seamlessly sync with PowerSchool, Skyward, Infinite Campus, and more. No double data entry, no manual imports.",
-    color: "bg-indigo-50 text-indigo-600",
+      "Schedule Beacon surfaces scheduling conflicts through clear, intuitive visualizations — making it easy for administrators to understand what's causing an issue and act on intelligent resolution recommendations before they impact students.",
+    color: "bg-rose-50 text-rose-600",
   },
 ];
 
@@ -214,10 +214,12 @@ export function Home() {
               transition={{ duration: 0.7 }}
             >
               <h1
-                className="text-4xl lg:text-[2.6rem] text-[var(--midnight-blue)] mb-6 tracking-tight"
-                style={{ lineHeight: 1.12, fontWeight: 800 }}
+                className="text-5xl lg:text-6xl xl:text-7xl text-[var(--midnight-blue)] mb-6 tracking-tight"
+                style={{ lineHeight: 1.06, fontWeight: 800 }}
               >
-                The Better Way to Build
+                The Better
+                <br />
+                Way to Build
                 <br />
                 <span
                   style={{
@@ -407,23 +409,47 @@ export function Home() {
             {features.map((feature, i) => (
               <motion.div
                 key={i}
-                className="group p-7 rounded-2xl border border-gray-100 hover:border-[var(--midnight-blue)]/20 hover:shadow-lg transition-all duration-300 cursor-pointer bg-white hover:bg-gray-50/50"
-                initial={{ opacity: 0, y: 20 }}
+                className="group relative p-7 rounded-2xl border border-gray-100 bg-white overflow-hidden cursor-pointer"
+                initial={{ opacity: 0, y: 28 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.08 }}
+                transition={{ duration: 0.5, delay: i * 0.12 }}
+                whileHover={{ y: -6, boxShadow: "0 20px 50px rgba(0,33,71,0.12)" }}
               >
-                <div className={`w-11 h-11 rounded-xl flex items-center justify-center mb-5 ${feature.color}`}>
-                  <feature.icon className="w-5 h-5" />
+                {/* Large faded number watermark */}
+                <div
+                  className="absolute -right-3 -top-4 text-[6rem] font-black text-[var(--midnight-blue)] select-none pointer-events-none leading-none"
+                  style={{ opacity: 0.04 }}
+                >
+                  {String(i + 1).padStart(2, "0")}
                 </div>
-                <h3 className="text-[var(--midnight-blue)] mb-2.5" style={{ fontSize: "1rem" }}>
-                  {feature.title}
-                </h3>
-                <p className="text-[var(--midnight-blue)]/55 text-sm" style={{ lineHeight: 1.7 }}>
-                  {feature.description}
-                </p>
-                <div className="mt-5 flex items-center gap-1 text-xs text-[var(--midnight-blue)]/40 group-hover:text-[var(--midnight-blue)]/70 transition-colors">
-                  Learn more <ChevronRight className="w-3.5 h-3.5" />
+
+                {/* Hover background sweep */}
+                <div className="absolute inset-0 bg-gradient-to-br from-[var(--university-gold)]/0 to-[var(--university-gold)]/0 group-hover:from-[var(--university-gold)]/4 group-hover:to-transparent transition-all duration-500 rounded-2xl" />
+
+                <div className="relative z-10">
+                  {/* Icon */}
+                  <div className={`w-12 h-12 rounded-xl flex items-center justify-center mb-5 transition-transform duration-300 group-hover:scale-110 ${feature.color}`}>
+                    <feature.icon className="w-5 h-5" />
+                  </div>
+
+                  {/* Title */}
+                  <h3
+                    className="text-[var(--midnight-blue)] mb-3 group-hover:text-[var(--midnight-blue)] transition-colors"
+                    style={{ fontSize: "1.05rem", fontWeight: 700, lineHeight: 1.3 }}
+                  >
+                    {feature.title}
+                  </h3>
+
+                  {/* Description */}
+                  <p className="text-[var(--midnight-blue)]/55 text-sm" style={{ lineHeight: 1.75 }}>
+                    {feature.description}
+                  </p>
+
+                  {/* Learn more */}
+                  <div className="mt-5 flex items-center gap-1 text-xs font-semibold text-[var(--midnight-blue)]/35 group-hover:text-[var(--midnight-blue)]/70 group-hover:gap-2 transition-all duration-200">
+                    Learn more <ChevronRight className="w-3.5 h-3.5" />
+                  </div>
                 </div>
               </motion.div>
             ))}
