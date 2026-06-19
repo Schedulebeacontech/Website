@@ -1,5 +1,5 @@
 import { motion } from "motion/react";
-import { FileText, Video, Download, BookOpen, ExternalLink, Calendar, Clock, ArrowRight, Search, Sparkles, Shield } from "lucide-react";
+import { FileText, Video, Download, BookOpen, ExternalLink, Calendar, Clock, ArrowRight, Search, Sparkles } from "lucide-react";
 import { Link } from "react-router";
 import { useState } from "react";
 import logoIcon from "../../assets/logo-watermark-hires.png";
@@ -10,6 +10,7 @@ const resourceCategories = [
   { label: "Videos", value: "video" },
   { label: "Case Studies", value: "case-study" },
   { label: "Webinars", value: "webinar" },
+  { label: "Security", value: "security" },
 ];
 
 export function Resources() {
@@ -174,14 +175,6 @@ export function Resources() {
                 style={{ fontWeight: 600 }}
               >
                 Browse FAQs
-              </Link>
-              <Link
-                to="/security"
-                className="inline-flex items-center justify-center gap-2 bg-white/10 text-white px-8 py-4 rounded-xl hover:bg-white/15 transition-all border border-white/20"
-                style={{ fontWeight: 600 }}
-              >
-                <Shield className="w-4 h-4" />
-                Security
               </Link>
             </div>
           </motion.div>

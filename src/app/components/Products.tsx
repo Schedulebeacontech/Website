@@ -371,13 +371,21 @@ export function Products() {
                 Contact us or request a demo and we'll provide full pricing details tailored to your enrollment and district structure.
               </p>
             </div>
-            <div className="flex gap-3 shrink-0">
+            <div className="flex flex-wrap gap-3 shrink-0">
               <Link
                 to="/contact"
                 className="inline-flex items-center gap-2 border border-white/30 text-white px-6 py-3 rounded-xl hover:bg-white/10 transition-all text-sm"
                 style={{ fontWeight: 600 }}
               >
                 Contact Us
+              </Link>
+              <Link
+                to="/security"
+                className="inline-flex items-center gap-2 border border-white/30 text-white px-6 py-3 rounded-xl hover:bg-white/10 transition-all text-sm"
+                style={{ fontWeight: 600 }}
+              >
+                <Shield className="w-4 h-4" />
+                Security
               </Link>
               <Link
                 to="/demo"
