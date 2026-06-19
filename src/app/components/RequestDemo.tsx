@@ -1,19 +1,20 @@
 import { motion } from "motion/react";
-import { Calendar, CheckCircle, Send, Star, Clock, Users, Zap, ArrowRight, MessageSquare, Loader2, AlertCircle } from "lucide-react";
+import { Calendar, CheckCircle, Send, Star, Clock, Users, Zap, ArrowRight, MessageSquare, Loader2, AlertCircle, Sparkles } from "lucide-react";
 import { useState } from "react";
 import emailjs from "@emailjs/browser";
-import logoIcon from "figma:asset/5671362e46764389b665ff1fad478cea5f46eaa8.png";
+import logoIcon from "../../assets/logo-watermark-hires.png";
 import { EMAILJS_CONFIG, isEmailJSConfigured } from "../lib/emailjs";
+import { US_STATES } from "../lib/usStates";
 
 const demoPerks = [
   {
     icon: Clock,
-    title: "30-Minute Session",
+    title: "60-Minute Session",
     description: "A focused walkthrough of Schedule Beacon's key features.",
   },
   {
     icon: Zap,
-    title: "Your Needs, Our Priority",
+    title: "Built for Your District's Needs",
     description: "We take your district's unique circumstances and scheduling challenges into account throughout every conversation.",
   },
   {
@@ -29,9 +30,11 @@ export function RequestDemo() {
     email: "",
     phone: "",
     district: "",
+    state: "",
     role: "",
     studentCount: "",
     timeline: "",
+    hasSchedulingProvider: false,
     message: "",
   });
   const [submitted, setSubmitted] = useState(false);
@@ -61,9 +64,11 @@ export function RequestDemo() {
           from_email: formData.email,
           phone: formData.phone,
           district: formData.district,
+          state: formData.state,
           role: formData.role,
           student_count: formData.studentCount,
           timeline: formData.timeline || "Not specified",
+          has_scheduling_provider: formData.hasSchedulingProvider ? "Yes" : "No",
           message: formData.message || "Not provided",
           to_email: "info@schedulebeacon.com",
         },
@@ -81,7 +86,12 @@ export function RequestDemo() {
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, type } = e.target;
+    if (type === "checkbox") {
+      setFormData({ ...formData, [name]: (e.target as HTMLInputElement).checked });
+    } else {
+      setFormData({ ...formData, [name]: e.target.value });
+    }
   };
 
   return (
@@ -97,8 +107,8 @@ export function RequestDemo() {
           src={logoIcon}
           alt=""
           aria-hidden="true"
-          className="absolute right-[-40px] top-1/2 -translate-y-1/2 w-[340px] pointer-events-none select-none"
-          style={{ mixBlendMode: "screen", opacity: 0.15 }}
+          className="absolute right-[-20px] top-1/2 -translate-y-1/2 w-[300px] pointer-events-none select-none"
+          style={{ mixBlendMode: "screen", opacity: 0.16 }}
         />
 
         <div className="max-w-4xl mx-auto px-6 text-center relative z-10">
@@ -117,11 +127,32 @@ export function RequestDemo() {
               className="text-5xl lg:text-6xl text-white mb-6"
               style={{ lineHeight: 1.1 }}
             >
-              See Schedule Beacon{" "}
+              See Schedule Beacon
+              <br />
               <span className="text-[var(--university-gold)]">in action</span>
             </h1>
             <p className="text-xl text-white/60" style={{ lineHeight: 1.7 }}>
-              Schedule a personalized 30-minute demo with a scheduling expert — tailored to your district's needs.
+              Schedule a personalized 60-minute demo with a scheduling expert — tailored to your district's needs.
+            </p>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ── Digital Twin Callout ────────────────────────────── */}
+      <section className="py-6 bg-[var(--university-gold)]/8 border-b border-[var(--university-gold)]/20">
+        <div className="max-w-4xl mx-auto px-6">
+          <motion.div
+            className="flex items-start sm:items-center gap-4"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+          >
+            <div className="w-10 h-10 bg-[var(--university-gold)]/20 rounded-xl flex items-center justify-center shrink-0">
+              <Sparkles className="w-5 h-5 text-[var(--midnight-blue)]" />
+            </div>
+            <p className="text-sm text-[var(--midnight-blue)]/75" style={{ lineHeight: 1.6 }}>
+              <span style={{ fontWeight: 700 }}>Your demo is a digital twin of your district.</span>{" "}
+              We build the walkthrough around data that resembles your schools, so you see a realistic picture of how Schedule Beacon will actually work for you — not a generic demo.
             </p>
           </motion.div>
         </div>
@@ -224,20 +255,6 @@ export function RequestDemo() {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                     <div>
                       <label className="block text-sm text-[var(--midnight-blue)] mb-1.5" style={{ fontWeight: 600 }}>
-                        Phone Number *
-                      </label>
-                      <input
-                        type="tel"
-                        name="phone"
-                        required
-                        value={formData.phone}
-                        onChange={handleChange}
-                        placeholder="(555) 000-0000"
-                        className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[var(--university-gold)] focus:border-transparent transition-all placeholder:text-gray-300 text-[var(--midnight-blue)]"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm text-[var(--midnight-blue)] mb-1.5" style={{ fontWeight: 600 }}>
                         School District *
                       </label>
                       <input
@@ -250,9 +267,40 @@ export function RequestDemo() {
                         className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[var(--university-gold)] focus:border-transparent transition-all placeholder:text-gray-300 text-[var(--midnight-blue)]"
                       />
                     </div>
+                    <div>
+                      <label className="block text-sm text-[var(--midnight-blue)] mb-1.5" style={{ fontWeight: 600 }}>
+                        State *
+                      </label>
+                      <select
+                        name="state"
+                        required
+                        value={formData.state}
+                        onChange={handleChange}
+                        className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[var(--university-gold)] focus:border-transparent transition-all text-[var(--midnight-blue)]"
+                      >
+                        <option value="">Select state</option>
+                        {US_STATES.map((s) => (
+                          <option key={s} value={s}>{s}</option>
+                        ))}
+                      </select>
+                    </div>
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <div>
+                      <label className="block text-sm text-[var(--midnight-blue)] mb-1.5" style={{ fontWeight: 600 }}>
+                        Phone Number *
+                      </label>
+                      <input
+                        type="tel"
+                        name="phone"
+                        required
+                        value={formData.phone}
+                        onChange={handleChange}
+                        placeholder="(555) 000-0000"
+                        className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[var(--university-gold)] focus:border-transparent transition-all placeholder:text-gray-300 text-[var(--midnight-blue)]"
+                      />
+                    </div>
                     <div>
                       <label className="block text-sm text-[var(--midnight-blue)] mb-1.5" style={{ fontWeight: 600 }}>
                         Your Role *
@@ -272,6 +320,9 @@ export function RequestDemo() {
                         <option value="other">Other</option>
                       </select>
                     </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                     <div>
                       <label className="block text-sm text-[var(--midnight-blue)] mb-1.5" style={{ fontWeight: 600 }}>
                         Number of Students *
@@ -290,25 +341,37 @@ export function RequestDemo() {
                         <option value="5001+">5,001+</option>
                       </select>
                     </div>
+                    <div>
+                      <label className="block text-sm text-[var(--midnight-blue)] mb-1.5" style={{ fontWeight: 600 }}>
+                        Implementation Timeline
+                      </label>
+                      <select
+                        name="timeline"
+                        value={formData.timeline}
+                        onChange={handleChange}
+                        className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[var(--university-gold)] focus:border-transparent transition-all text-[var(--midnight-blue)]"
+                      >
+                        <option value="">Select timeline</option>
+                        <option value="immediate">Immediately (within 30 days)</option>
+                        <option value="1-3months">1–3 months</option>
+                        <option value="3-6months">3–6 months</option>
+                        <option value="exploring">Just exploring</option>
+                      </select>
+                    </div>
                   </div>
 
-                  <div>
-                    <label className="block text-sm text-[var(--midnight-blue)] mb-1.5" style={{ fontWeight: 600 }}>
-                      Implementation Timeline
-                    </label>
-                    <select
-                      name="timeline"
-                      value={formData.timeline}
+                  <label className="flex items-center gap-3 px-4 py-3.5 border border-gray-200 rounded-xl cursor-pointer hover:border-[var(--university-gold)]/50 transition-colors">
+                    <input
+                      type="checkbox"
+                      name="hasSchedulingProvider"
+                      checked={formData.hasSchedulingProvider}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[var(--university-gold)] focus:border-transparent transition-all text-[var(--midnight-blue)]"
-                    >
-                      <option value="">Select timeline</option>
-                      <option value="immediate">Immediately (within 30 days)</option>
-                      <option value="1-3months">1–3 months</option>
-                      <option value="3-6months">3–6 months</option>
-                      <option value="exploring">Just exploring</option>
-                    </select>
-                  </div>
+                      className="w-4 h-4 rounded accent-[var(--university-gold)] shrink-0"
+                    />
+                    <span className="text-sm text-[var(--midnight-blue)]" style={{ fontWeight: 500 }}>
+                      Do you have a dedicated scheduling provider?
+                    </span>
+                  </label>
 
                   <div>
                     <label className="block text-sm text-[var(--midnight-blue)] mb-1.5" style={{ fontWeight: 600 }}>

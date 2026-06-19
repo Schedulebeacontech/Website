@@ -1,8 +1,8 @@
 import { motion } from "motion/react";
-import { FileText, Video, Download, BookOpen, ExternalLink, Calendar, Clock, ArrowRight, Search, Sparkles } from "lucide-react";
+import { FileText, Video, Download, BookOpen, ExternalLink, Calendar, Clock, ArrowRight, Search, Sparkles, Shield } from "lucide-react";
 import { Link } from "react-router";
 import { useState } from "react";
-import logoIcon from "figma:asset/5671362e46764389b665ff1fad478cea5f46eaa8.png";
+import logoIcon from "../../assets/logo-watermark-hires.png";
 
 const resourceCategories = [
   { label: "All", value: "all" },
@@ -33,7 +33,7 @@ export function Resources() {
           src={logoIcon}
           alt=""
           aria-hidden="true"
-          className="absolute right-[-60px] top-1/2 -translate-y-1/2 w-[420px] pointer-events-none select-none"
+          className="absolute right-[-40px] top-1/2 -translate-y-1/2 w-[360px] pointer-events-none select-none"
           style={{ mixBlendMode: "multiply", opacity: 0.06 }}
         />
 
@@ -168,12 +168,21 @@ export function Resources() {
               >
                 Contact Support
               </Link>
-              <button
+              <Link
+                to="/faq"
                 className="inline-flex items-center justify-center gap-2 bg-white/10 text-white px-8 py-4 rounded-xl hover:bg-white/15 transition-all border border-white/20"
                 style={{ fontWeight: 600 }}
               >
                 Browse FAQs
-              </button>
+              </Link>
+              <Link
+                to="/security"
+                className="inline-flex items-center justify-center gap-2 bg-white/10 text-white px-8 py-4 rounded-xl hover:bg-white/15 transition-all border border-white/20"
+                style={{ fontWeight: 600 }}
+              >
+                <Shield className="w-4 h-4" />
+                Security
+              </Link>
             </div>
           </motion.div>
         </div>

@@ -2,27 +2,24 @@ import { motion } from "motion/react";
 import { Mail, Phone, MapPin, Send, Clock, Loader2, AlertCircle } from "lucide-react";
 import { useState } from "react";
 import emailjs from "@emailjs/browser";
-import logoIcon from "figma:asset/5671362e46764389b665ff1fad478cea5f46eaa8.png";
+import logoIcon from "../../assets/logo-watermark-hires.png";
 import { EMAILJS_CONFIG, isEmailJSConfigured } from "../lib/emailjs";
+import { US_STATES } from "../lib/usStates";
 
 const contactChannels = [
   {
     icon: Mail,
     title: "Email Us",
+    href: "mailto:info@schedulebeacon.com",
     detail: "info@schedulebeacon.com",
     sub: "We respond within 24 hours",
-    color: "bg-blue-50 text-blue-600",
   },
   {
     icon: Phone,
     title: "Call Us",
-    detail: null,
+    href: "tel:+15184195335",
+    detail: "(518) 419-5335",
     sub: "Mon–Fri, 8 AM–6 PM EST",
-    color: "bg-emerald-50 text-emerald-600",
-    numbers: [
-      { name: "Robert", number: "(518) 419-5335" },
-      { name: "Chris", number: "(585) 301-2105" },
-    ],
   },
 ];
 
@@ -32,6 +29,7 @@ export function Contact() {
     email: "",
     phone: "",
     district: "",
+    state: "",
     subject: "",
     message: "",
   });
@@ -62,6 +60,7 @@ export function Contact() {
           from_email: formData.email,
           phone: formData.phone || "Not provided",
           district: formData.district || "Not provided",
+          state: formData.state || "Not provided",
           subject: formData.subject,
           message: formData.message,
           to_email: "info@schedulebeacon.com",
@@ -101,7 +100,7 @@ export function Contact() {
           src={logoIcon}
           alt=""
           aria-hidden="true"
-          className="absolute right-[-60px] top-1/2 -translate-y-1/2 w-[420px] pointer-events-none select-none"
+          className="absolute right-[-40px] top-1/2 -translate-y-1/2 w-[360px] pointer-events-none select-none"
           style={{ mixBlendMode: "multiply", opacity: 0.06 }}
         />
 
@@ -132,41 +131,34 @@ export function Contact() {
       </section>
 
       {/* ── Contact Channels ────────────────────────────────── */}
-      <section className="py-12 bg-white border-b border-gray-100">
-        <div className="max-w-5xl mx-auto px-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+      <section className="py-14 bg-white border-b border-gray-100">
+        <div className="max-w-3xl mx-auto px-6">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-8 sm:gap-0 sm:divide-x sm:divide-gray-150">
             {contactChannels.map((channel, i) => (
-              <motion.div
+              <motion.a
                 key={i}
-                className="flex items-center gap-4 p-5 rounded-2xl border border-gray-100 hover:shadow-md transition-all"
-                initial={{ opacity: 0, y: 20 }}
+                href={channel.href}
+                className="group flex items-center gap-4 sm:px-10 first:pl-0 last:pr-0"
+                initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: i * 0.1 }}
               >
-                <div className={`w-11 h-11 rounded-xl flex items-center justify-center shrink-0 ${channel.color}`}>
-                  <channel.icon className="w-5 h-5" />
+                <div className="w-12 h-12 rounded-full bg-[var(--soft-grey)] flex items-center justify-center shrink-0 group-hover:bg-[var(--university-gold)]/15 transition-colors">
+                  <channel.icon className="w-5 h-5 text-[var(--midnight-blue)]/70 group-hover:text-[var(--midnight-blue)] transition-colors" />
                 </div>
                 <div>
-                  <div className="text-[var(--midnight-blue)] text-sm" style={{ fontWeight: 600 }}>
+                  <div className="text-[var(--midnight-blue)]/45 text-xs mb-0.5" style={{ fontWeight: 600, letterSpacing: "0.04em", textTransform: "uppercase" }}>
                     {channel.title}
                   </div>
-                  {channel.numbers ? (
-                    <div className="space-y-0.5 mt-0.5">
-                      {channel.numbers.map((n) => (
-                        <div key={n.name} className="text-[var(--midnight-blue)] text-sm">
-                          <span className="text-[var(--midnight-blue)]/50" style={{ fontWeight: 500 }}>{n.name}: </span>
-                          <span style={{ fontWeight: 700 }}>{n.number}</span>
-                        </div>
-                      ))}
-                    </div>
-                  ) : (
-                    <div className="text-[var(--midnight-blue)] text-sm" style={{ fontWeight: 700 }}>
-                      {channel.detail}
-                    </div>
-                  )}
+                  <div
+                    className="text-[var(--midnight-blue)] group-hover:text-[var(--university-gold)] transition-colors underline-offset-4 group-hover:underline"
+                    style={{ fontSize: "1.15rem", fontWeight: 700 }}
+                  >
+                    {channel.detail}
+                  </div>
                   <div className="text-[var(--midnight-blue)]/45 text-xs mt-0.5">{channel.sub}</div>
                 </div>
-              </motion.div>
+              </motion.a>
             ))}
           </div>
         </div>
@@ -320,6 +312,23 @@ export function Contact() {
                         className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[var(--university-gold)] focus:border-transparent transition-all bg-white text-[var(--midnight-blue)] placeholder:text-gray-300"
                       />
                     </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm text-[var(--midnight-blue)] mb-1.5" style={{ fontWeight: 600 }}>
+                      State
+                    </label>
+                    <select
+                      name="state"
+                      value={formData.state}
+                      onChange={handleChange}
+                      className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[var(--university-gold)] focus:border-transparent transition-all bg-white text-[var(--midnight-blue)]"
+                    >
+                      <option value="">Select state</option>
+                      {US_STATES.map((s) => (
+                        <option key={s} value={s}>{s}</option>
+                      ))}
+                    </select>
                   </div>
 
                   <div>

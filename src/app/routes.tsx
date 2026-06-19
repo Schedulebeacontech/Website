@@ -7,6 +7,7 @@ import { Products } from "./components/Products";
 import { Resources } from "./components/Resources";
 import { RequestDemo } from "./components/RequestDemo";
 import { FAQ } from "./components/FAQ";
+import { Security } from "./components/Security";
 import { NotFound } from "./components/NotFound";
 
 export const router = createBrowserRouter([
@@ -21,6 +22,7 @@ export const router = createBrowserRouter([
       { path: "resources", Component: Resources },
       { path: "demo", Component: RequestDemo },
       { path: "faq", Component: FAQ },
+      { path: "security", Component: Security },
       { path: "*", Component: NotFound },
     ],
   },
