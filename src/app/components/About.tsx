@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { motion } from "motion/react";
-import { Heart, ArrowRight, School, Camera, ChevronDown, ChevronUp } from "lucide-react";
+import { motion, AnimatePresence } from "motion/react";
+import { ArrowRight, School, Camera, ChevronDown, ChevronUp } from "lucide-react";
 import { Link } from "react-router";
 import robertPhoto from "figma:asset/687e62d638bda0455a39e822668ff18ba3807236.png";
 import christopherPhoto from "figma:asset/3989bab4005258e45f6295f771dfe502dd481560.png";
@@ -37,68 +37,74 @@ const founders = [
 function ValuesWheel() {
   const [active, setActive] = useState<number | null>(null);
   const quadrants = [
-    { id: 0, label: "We put people first", principle: "We prioritize the well-being and growth of our team, partners, and the communities we serve above all. Technology is a tool; people are the purpose.", position: "top-left" },
-    { id: 1, label: "We act with integrity", principle: "We do the right thing, even when no one is watching. Transparency, honesty, and ethical responsibility are non-negotiable in our pursuit of progress.", position: "top-right" },
-    { id: 2, label: "We are driving change", principle: "We don't just observe the gap between the private and public sectors; we bridge it. We are catalysts for modernization and relentless advocates for the better way.", position: "bottom-left" },
-    { id: 3, label: "We are all in", principle: "We approach every challenge with owner-level passion. We are fully invested in the success of our mission, the growth of our company, and the goals of our clients.", position: "bottom-right" },
+    { id: 0, label: "We put people first", principle: "We prioritize the well-being and growth of our team, partners, and the communities we serve above all. Technology is a tool; people are the purpose." },
+    { id: 1, label: "We act with integrity", principle: "We do the right thing, even when no one is watching. Transparency, honesty, and ethical responsibility are non-negotiable in our pursuit of progress." },
+    { id: 2, label: "We are driving change", principle: "We don't just observe the gap between the private and public sectors; we bridge it. We are catalysts for modernization and relentless advocates for the better way." },
+    { id: 3, label: "We are all in", principle: "We approach every challenge with owner-level passion. We are fully invested in the success of our mission, the growth of our company, and the goals of our clients." },
   ];
 
   return (
-    <div className="grid grid-cols-2 gap-4 max-w-3xl mx-auto">
-      {quadrants.map((q) => (
-        <motion.button
-          key={q.id}
-          onClick={() => setActive(active === q.id ? null : q.id)}
-          className="relative rounded-2xl p-7 text-left transition-all duration-300 overflow-hidden"
-          style={{
-            background: active === q.id ? "var(--university-gold)" : "rgba(255,255,255,0.06)",
-            border: active === q.id ? "1.5px solid var(--university-gold)" : "1.5px solid rgba(255,255,255,0.1)",
-          }}
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: q.id * 0.08 }}
-        >
-          <div
-            className="text-4xl mb-3 font-bold"
-            style={{ color: active === q.id ? "var(--midnight-blue)" : "rgba(255,199,44,0.3)" }}
+    <div className="relative grid grid-cols-2 gap-4 max-w-3xl mx-auto">
+      {quadrants.map((q) => {
+        const isActive = active === q.id;
+        return (
+          <motion.div
+            key={q.id}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: q.id * 0.08 }}
           >
-            0{q.id + 1}
-          </div>
-          <div
-            className="text-lg font-bold mb-0 leading-snug"
-            style={{ color: active === q.id ? "var(--midnight-blue)" : "white" }}
-          >
-            {q.label}
-          </div>
-          {active === q.id && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: "auto" }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.2 }}
-              className="mt-3"
+            <button
+              onClick={() => setActive(isActive ? null : q.id)}
+              className="w-full rounded-2xl p-7 text-left transition-all duration-300"
+              style={{
+                background: isActive ? "var(--university-gold)" : "rgba(255,255,255,0.06)",
+                border: isActive ? "1.5px solid var(--university-gold)" : "1.5px solid rgba(255,255,255,0.1)",
+              }}
             >
-              <p className="text-sm leading-relaxed" style={{ color: "var(--midnight-blue)", opacity: 0.75 }}>
-                {q.principle}
-              </p>
-            </motion.div>
-          )}
-          {active !== q.id && (
-            <div className="mt-3 text-xs font-medium" style={{ color: "rgba(255,199,44,0.5)" }}>
-              Tap to expand
-            </div>
-          )}
-        </motion.button>
-      ))}
+              <div
+                className="text-4xl mb-3 font-bold"
+                style={{ color: isActive ? "var(--midnight-blue)" : "rgba(255,199,44,0.3)" }}
+              >
+                0{q.id + 1}
+              </div>
+              <div
+                className="text-lg font-bold leading-snug"
+                style={{ color: isActive ? "var(--midnight-blue)" : "white" }}
+              >
+                {q.label}
+              </div>
+              <AnimatePresence initial={false}>
+                {isActive && (
+                  <motion.div
+                    key="content"
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: "auto" }}
+                    exit={{ opacity: 0, height: 0 }}
+                    transition={{ duration: 0.22, ease: "easeInOut" }}
+                    style={{ overflow: "hidden" }}
+                  >
+                    <p className="text-sm leading-relaxed mt-3" style={{ color: "var(--midnight-blue)", opacity: 0.75 }}>
+                      {q.principle}
+                    </p>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+              {!isActive && (
+                <div className="mt-2 text-xs font-medium" style={{ color: "rgba(255,199,44,0.45)" }}>
+                  Tap to expand
+                </div>
+              )}
+            </button>
+          </motion.div>
+        );
+      })}
 
-      {/* Center logo overlay — purely decorative, positioned in middle */}
-      <div
-        className="absolute inset-0 pointer-events-none flex items-center justify-center"
-        style={{ zIndex: 10 }}
-      >
-        <div className="w-20 h-20 rounded-full bg-[var(--midnight-blue)] border-4 border-[var(--university-gold)]/30 flex items-center justify-center shadow-2xl">
-          <img src={logoIcon} alt="" aria-hidden className="w-12 h-12 object-contain" style={{ filter: "brightness(0) invert(1)" }} />
+      {/* Center logo badge */}
+      <div className="absolute inset-0 pointer-events-none flex items-center justify-center" style={{ zIndex: 10 }}>
+        <div className="w-16 h-16 rounded-full bg-[var(--midnight-blue)] border-4 border-[var(--university-gold)]/40 flex items-center justify-center shadow-2xl">
+          <img src={logoIcon} alt="" aria-hidden className="w-9 h-9 object-contain" style={{ filter: "brightness(0) invert(1)" }} />
         </div>
       </div>
     </div>
