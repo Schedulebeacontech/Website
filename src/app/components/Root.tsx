@@ -188,7 +188,6 @@ export function Root() {
                   { label: "Scheduling Features", path: "/products#features" },
                   { label: "The Difference", path: "/products#difference" },
                   { label: "Enterprise Platform", path: "/products#platform" },
-                  { label: "Pricing", path: "/products#pricing" },
                 ].map((item) => (
                   <li key={item.label}>
                     <Link to={item.path} className="text-white/50 hover:text-white text-sm transition-colors">

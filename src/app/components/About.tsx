@@ -1,36 +1,13 @@
 import { useState } from "react";
-import { motion, AnimatePresence } from "motion/react";
-import { Heart, ArrowRight, School, Lightbulb, Flame, ShieldCheck, Camera, ChevronDown, ChevronUp } from "lucide-react";
+import { motion } from "motion/react";
+import { Heart, ArrowRight, School, Camera, ChevronDown, ChevronUp } from "lucide-react";
 import { Link } from "react-router";
-import { ImageWithFallback } from "./figma/ImageWithFallback";
 import robertPhoto from "figma:asset/687e62d638bda0455a39e822668ff18ba3807236.png";
 import christopherPhoto from "figma:asset/3989bab4005258e45f6295f771dfe502dd481560.png";
 import logoIcon from "figma:asset/5671362e46764389b665ff1fad478cea5f46eaa8.png";
 import foundersPanel from "../../assets/founders-panel.png";
 import foundersIncubator from "../../assets/founders-incubator.png";
 
-const values = [
-  {
-    label: "We put people first",
-    principle:
-      "We prioritize the well-being and growth of our team, partners, and the communities we serve above all. Technology is a tool; people are the purpose.",
-  },
-  {
-    label: "We act with integrity",
-    principle:
-      "We do the right thing, even when no one is watching. Transparency, honesty, and ethical responsibility are non-negotiable in our pursuit of progress.",
-  },
-  {
-    label: "We are driving change",
-    principle:
-      "We don't just observe the gap between the private and public sectors; we bridge it. We are catalysts for modernization and relentless advocates for the better way.",
-  },
-  {
-    label: "We are all in",
-    principle:
-      "We approach every challenge with owner-level passion. We are fully invested in the success of our mission, the growth of our company, and the goals of our clients.",
-  },
-];
 
 const founders = [
   {
@@ -57,59 +34,74 @@ const founders = [
   },
 ];
 
-function ValueAccordion({ value, index }: { value: typeof values[0]; index: number }) {
-  const [open, setOpen] = useState(false);
+function ValuesWheel() {
+  const [active, setActive] = useState<number | null>(null);
+  const quadrants = [
+    { id: 0, label: "We put people first", principle: "We prioritize the well-being and growth of our team, partners, and the communities we serve above all. Technology is a tool; people are the purpose.", position: "top-left" },
+    { id: 1, label: "We act with integrity", principle: "We do the right thing, even when no one is watching. Transparency, honesty, and ethical responsibility are non-negotiable in our pursuit of progress.", position: "top-right" },
+    { id: 2, label: "We are driving change", principle: "We don't just observe the gap between the private and public sectors; we bridge it. We are catalysts for modernization and relentless advocates for the better way.", position: "bottom-left" },
+    { id: 3, label: "We are all in", principle: "We approach every challenge with owner-level passion. We are fully invested in the success of our mission, the growth of our company, and the goals of our clients.", position: "bottom-right" },
+  ];
+
   return (
-    <motion.div
-      className="border border-white/10 rounded-2xl overflow-hidden"
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.5, delay: index * 0.08 }}
-    >
-      <button
-        onClick={() => setOpen(!open)}
-        className="w-full flex items-center gap-5 px-8 py-6 text-left transition-colors duration-200"
-        style={{ background: open ? "rgba(255,255,255,0.07)" : "rgba(255,255,255,0.04)" }}
-      >
-        <span
-          className="text-[var(--university-gold)]/50 shrink-0"
-          style={{ fontSize: "1.1rem", fontWeight: 700, minWidth: "2rem" }}
+    <div className="grid grid-cols-2 gap-4 max-w-3xl mx-auto">
+      {quadrants.map((q) => (
+        <motion.button
+          key={q.id}
+          onClick={() => setActive(active === q.id ? null : q.id)}
+          className="relative rounded-2xl p-7 text-left transition-all duration-300 overflow-hidden"
+          style={{
+            background: active === q.id ? "var(--university-gold)" : "rgba(255,255,255,0.06)",
+            border: active === q.id ? "1.5px solid var(--university-gold)" : "1.5px solid rgba(255,255,255,0.1)",
+          }}
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: q.id * 0.08 }}
         >
-          {String(index + 1).padStart(2, "0")}
-        </span>
-        <span className="flex-1 text-white" style={{ fontSize: "1.4rem", fontWeight: 700 }}>
-          {value.label}
-        </span>
-        <div
-          className="w-7 h-7 rounded-full flex items-center justify-center shrink-0 transition-colors duration-200"
-          style={{ background: open ? "var(--university-gold)" : "rgba(255,255,255,0.1)" }}
-        >
-          <ChevronDown
-            className="w-4 h-4 transition-transform duration-300"
-            style={{ transform: open ? "rotate(180deg)" : "rotate(0deg)", color: open ? "var(--midnight-blue)" : "rgba(255,255,255,0.5)" }}
-          />
-        </div>
-      </button>
-      <AnimatePresence initial={false}>
-        {open && (
-          <motion.div
-            key="content"
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.25, ease: "easeInOut" }}
-            style={{ overflow: "hidden" }}
+          <div
+            className="text-4xl mb-3 font-bold"
+            style={{ color: active === q.id ? "var(--midnight-blue)" : "rgba(255,199,44,0.3)" }}
           >
-            <div className="px-8 pb-6 pt-1" style={{ paddingLeft: "calc(2rem + 2rem + 1.25rem)" }}>
-              <p className="text-white/55 text-sm" style={{ lineHeight: 1.8 }}>
-                {value.principle}
+            0{q.id + 1}
+          </div>
+          <div
+            className="text-lg font-bold mb-0 leading-snug"
+            style={{ color: active === q.id ? "var(--midnight-blue)" : "white" }}
+          >
+            {q.label}
+          </div>
+          {active === q.id && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.2 }}
+              className="mt-3"
+            >
+              <p className="text-sm leading-relaxed" style={{ color: "var(--midnight-blue)", opacity: 0.75 }}>
+                {q.principle}
               </p>
+            </motion.div>
+          )}
+          {active !== q.id && (
+            <div className="mt-3 text-xs font-medium" style={{ color: "rgba(255,199,44,0.5)" }}>
+              Tap to expand
             </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </motion.div>
+          )}
+        </motion.button>
+      ))}
+
+      {/* Center logo overlay — purely decorative, positioned in middle */}
+      <div
+        className="absolute inset-0 pointer-events-none flex items-center justify-center"
+        style={{ zIndex: 10 }}
+      >
+        <div className="w-20 h-20 rounded-full bg-[var(--midnight-blue)] border-4 border-[var(--university-gold)]/30 flex items-center justify-center shadow-2xl">
+          <img src={logoIcon} alt="" aria-hidden className="w-12 h-12 object-contain" style={{ filter: "brightness(0) invert(1)" }} />
+        </div>
+      </div>
+    </div>
   );
 }
 
@@ -256,21 +248,21 @@ export function About() {
               transition={{ duration: 0.8 }}
               className="relative"
             >
-              <div className="grid grid-cols-2 gap-3">
+              <div className="relative" style={{ height: "340px" }}>
                 <img
                   src={foundersIncubator}
                   alt="Schedule Beacon founders at Incubator Works"
-                  className="rounded-2xl w-full object-cover object-top col-span-2"
-                  style={{ aspectRatio: "16/9" }}
+                  className="rounded-2xl object-cover object-top absolute shadow-lg"
+                  style={{ width: "72%", aspectRatio: "4/3", top: 0, left: 0, zIndex: 2 }}
                 />
                 <img
                   src={foundersPanel}
                   alt="Schedule Beacon founders at panel"
-                  className="rounded-2xl w-full object-cover object-center col-span-2"
-                  style={{ aspectRatio: "16/9" }}
+                  className="rounded-2xl object-cover object-center absolute shadow-xl"
+                  style={{ width: "72%", aspectRatio: "4/3", bottom: 0, right: 0, zIndex: 1, filter: "brightness(1)" }}
                 />
               </div>
-              <div className="absolute -bottom-6 -right-6 bg-white rounded-xl shadow-xl p-5 border border-gray-100">
+              <div className="absolute -bottom-6 -right-6 bg-white rounded-xl shadow-xl p-5 border border-gray-100" style={{ zIndex: 3 }}>
                 <div className="flex items-center gap-3">
                   <div className="w-12 h-12 bg-[var(--university-gold)] rounded-xl flex items-center justify-center">
                     <School className="w-6 h-6 text-[var(--midnight-blue)]" />
@@ -279,7 +271,6 @@ export function About() {
                     <div className="text-[var(--midnight-blue)] text-sm" style={{ fontWeight: 700 }}>
                       Student-Built
                     </div>
-                    <div className="text-[var(--midnight-blue)]/50 text-xs">For K-12 districts</div>
                   </div>
                 </div>
               </div>
@@ -348,10 +339,8 @@ export function About() {
             <h2 className="text-4xl text-white">What we stand for</h2>
           </motion.div>
 
-          <div className="flex flex-col gap-3">
-            {values.map((value, i) => (
-              <ValueAccordion key={i} value={value} index={i} />
-            ))}
+          <div className="relative">
+            <ValuesWheel />
           </div>
         </div>
       </section>
