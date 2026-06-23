@@ -1,9 +1,8 @@
-import { motion } from "motion/react";
+import { useState } from "react";
+import { motion, AnimatePresence } from "motion/react";
 import { Link } from "react-router";
 import {
-  Calendar,
   Users,
-  BarChart3,
   Settings,
   CheckCircle,
   ArrowRight,
@@ -11,13 +10,58 @@ import {
   Shield,
   RefreshCw,
   TrendingUp,
-  Database,
   Clock,
+  ChevronDown,
 } from "lucide-react";
-import { ImageWithFallback } from "./figma/ImageWithFallback";
 import logoIcon from "figma:asset/5671362e46764389b665ff1fad478cea5f46eaa8.png";
-import classroomImage from "figma:asset/ebae8327908bd508bc5251705f28f0197fc4c6aa.png";
 import productVideo from "../../imports/Screen_Recording_2026-04-09_230205.mp4";
+
+function PlatformAccordion({ feature, index }: { feature: typeof platformFeatures[0]; index: number }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <motion.div
+      className="rounded-2xl border border-gray-100 overflow-hidden"
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.5, delay: index * 0.08 }}
+    >
+      <button
+        onClick={() => setOpen(!open)}
+        className="w-full flex items-center gap-5 p-6 text-left hover:bg-gray-50 transition-colors"
+      >
+        <div className="w-11 h-11 bg-[var(--university-gold)]/15 rounded-xl flex items-center justify-center shrink-0">
+          <feature.icon className="w-5 h-5 text-[var(--midnight-blue)]" />
+        </div>
+        <span className="flex-1 text-[var(--midnight-blue)]" style={{ fontSize: "1rem", fontWeight: 600 }}>
+          {feature.title}
+        </span>
+        <ChevronDown
+          className="w-5 h-5 text-[var(--midnight-blue)]/40 shrink-0 transition-transform duration-300"
+          style={{ transform: open ? "rotate(180deg)" : "rotate(0deg)" }}
+        />
+      </button>
+      <AnimatePresence initial={false}>
+        {open && (
+          <motion.div
+            key="content"
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.25, ease: "easeInOut" }}
+            style={{ overflow: "hidden" }}
+          >
+            <div className="px-6 pb-6 pl-[4.25rem]">
+              <p className="text-[var(--midnight-blue)]/55 text-sm" style={{ lineHeight: 1.7 }}>
+                {feature.description}
+              </p>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.div>
+  );
+}
 
 const coreFeatures = [
   {
@@ -31,15 +75,8 @@ const coreFeatures = [
     icon: RefreshCw,
     title: "Constraint Optimization",
     description:
-      "A flexible configuration tool that lets each district customize their scheduling logic, accommodating faculty certifications, room capacity limits, and other unique district needs.",
+      "A flexible configuration tool that lets each district customize their scheduling logic, accommodating faculty certifications, room capacity limits, and other unique district requirements.",
     color: "bg-amber-50 text-amber-600",
-  },
-  {
-    icon: Database,
-    title: "SIS Integration",
-    description:
-      "Seamlessly sync with PowerSchool, Skyward, Infinite Campus, and more. No double data entry, no manual imports.",
-    color: "bg-indigo-50 text-indigo-600",
   },
   {
     icon: Users,
@@ -49,27 +86,24 @@ const coreFeatures = [
     color: "bg-purple-50 text-purple-600",
   },
   {
-    icon: BarChart3,
-    title: "Predictive Analytics",
+    icon: CheckCircle,
+    title: "Conflict Viewing and Resolution",
     description:
-      "Get ahead of future bottlenecks before they arrive. Schedule Beacon brings enrollment trends, capacity pressures, and staffing shifts into focus so your team can plan proactively, not reactively.",
+      "A dedicated conflict management workspace that surfaces scheduling conflicts clearly and provides structured tools for resolution, allowing administrators to address issues with precision and confidence.",
     color: "bg-emerald-50 text-emerald-600",
   },
   {
-    icon: Shield,
-    title: "Security and Compliance",
+    icon: Settings,
+    title: "Simple UI and Interfaces",
     description:
-      "Built from the ground up with student data privacy in mind. Schedule Beacon is going to apply industry-standard encryption and role-based access controls to keep your district's data protected.",
-    color: "bg-orange-50 text-orange-600",
+      "Purpose-built screens designed around how scheduling coordinators actually work. Each view surfaces the right information at the right time, reducing training overhead and minimizing the risk of user error.",
+    color: "bg-indigo-50 text-indigo-600",
   },
 ];
 
 const benefits = [
-  "Achieve 90%+ student course placement rates",
-  "Eliminate scheduling conflicts automatically",
-  "Balance teacher workloads across departments",
-  "Support equity and compliance requirements",
-  "Make mid-year adjustments with instant conflict detection",
+  ["Achieve higher student course placement rates", "Eliminate scheduling conflicts across all buildings", "Balance teacher workloads across departments"],
+  ["Support equity and compliance requirements", "Reduce time spent on manual scheduling tasks", "Give administrators clear visibility into the full schedule"],
 ];
 
 const platformFeatures = [
@@ -143,7 +177,7 @@ export function Products() {
                 <span className="text-[var(--university-gold)]">Reimagined</span>
               </h1>
               <p className="text-lg text-[var(--midnight-blue)]/55 mb-8 max-w-lg" style={{ lineHeight: 1.7 }}>
-                Purpose-built for K-12 school districts. Build optimal master schedules in days, while ensuring every student gets the courses they need.
+                Purpose-built for K-12 school districts. Build master schedules in days, while ensuring every student gets the courses they need.
               </p>
               <div className="flex flex-wrap gap-3">
                 <Link
@@ -181,20 +215,7 @@ export function Products() {
                   style={{ aspectRatio: "16/9" }}
                 />
               </div>
-              {/* Floating badge */}
-              <div className="absolute -bottom-5 -left-5 bg-white rounded-xl shadow-xl p-4 border border-gray-100">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-emerald-100 rounded-xl flex items-center justify-center">
-                    <CheckCircle className="w-5 h-5 text-emerald-600" />
-                  </div>
-                  <div>
-                    <div className="text-[var(--midnight-blue)] text-sm" style={{ fontWeight: 700 }}>
-                      0 Conflicts
-                    </div>
-                    <div className="text-[var(--midnight-blue)]/50 text-xs">Fully optimized</div>
-                  </div>
-                </div>
-              </div>
+
             </motion.div>
           </div>
         </div>
@@ -255,59 +276,48 @@ export function Products() {
           <div className="absolute top-0 right-1/4 w-96 h-96 bg-[var(--university-gold)] rounded-full blur-3xl" />
         </div>
         <div className="max-w-7xl mx-auto px-6 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
+          <motion.div
+            className="text-center mb-14"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            <span
+              className="inline-block text-sm text-[var(--university-gold)]/70 bg-[var(--university-gold)]/10 px-4 py-1.5 rounded-full mb-6"
+              style={{ fontWeight: 600 }}
             >
-              <span
-                className="inline-block text-sm text-[var(--university-gold)]/70 bg-[var(--university-gold)]/10 px-4 py-1.5 rounded-full mb-6"
-                style={{ fontWeight: 600 }}
-              >
-                THE DIFFERENCE
-              </span>
-              <h2 className="text-4xl text-white mb-8">
-                Real results for real districts
-              </h2>
-              <div className="space-y-4">
-                {benefits.map((benefit, i) => (
+              THE DIFFERENCE
+            </span>
+            <h2 className="text-4xl text-white">
+              Real results for real districts
+            </h2>
+          </motion.div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-0 max-w-4xl mx-auto">
+            {benefits.map((col, ci) => (
+              <div key={ci} className="space-y-6">
+                {col.map((benefit, i) => (
                   <motion.div
                     key={i}
                     className="flex items-start gap-3"
                     initial={{ opacity: 0, x: -20 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
-                    transition={{ duration: 0.5, delay: i * 0.08 }}
+                    transition={{ duration: 0.5, delay: (ci * 3 + i) * 0.08 }}
                   >
                     <CheckCircle className="w-5 h-5 text-[var(--university-gold)] shrink-0 mt-0.5" />
                     <span className="text-white/80 text-base">{benefit}</span>
                   </motion.div>
                 ))}
               </div>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-            >
-              <ImageWithFallback
-                src={classroomImage}
-                alt="Kids raising hands in classroom"
-                className="rounded-2xl shadow-2xl w-full object-cover"
-                style={{ minHeight: "360px", imageRendering: "high-quality" }}
-              />
-            </motion.div>
+            ))}
           </div>
         </div>
       </section>
 
       {/* ── Platform Features ───────────────────────────────── */}
       <section id="platform" className="py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-6">
+        <div className="max-w-4xl mx-auto px-6">
           <motion.div
             className="text-center mb-16"
             initial={{ opacity: 0, y: 20 }}
@@ -322,32 +332,13 @@ export function Products() {
               ENTERPRISE PLATFORM
             </span>
             <h2 className="text-4xl text-[var(--midnight-blue)]">
-              Going to be built for how districts actually work
+              Built for how districts actually work
             </h2>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="flex flex-col gap-3">
             {platformFeatures.map((feature, i) => (
-              <motion.div
-                key={i}
-                className="flex gap-5 p-7 rounded-2xl border border-gray-100 hover:shadow-md transition-all"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.1 }}
-              >
-                <div className="w-12 h-12 bg-[var(--university-gold)]/15 rounded-xl flex items-center justify-center shrink-0">
-                  <feature.icon className="w-6 h-6 text-[var(--midnight-blue)]" />
-                </div>
-                <div>
-                  <h3 className="text-[var(--midnight-blue)] mb-2" style={{ fontSize: "1rem" }}>
-                    {feature.title}
-                  </h3>
-                  <p className="text-[var(--midnight-blue)]/55 text-sm" style={{ lineHeight: 1.7 }}>
-                    {feature.description}
-                  </p>
-                </div>
-              </motion.div>
+              <PlatformAccordion key={i} feature={feature} index={i} />
             ))}
           </div>
         </div>
