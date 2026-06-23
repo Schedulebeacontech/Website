@@ -16,6 +16,16 @@ import {
   Server,
   KeyRound,
   FileCheck,
+  Search,
+  Wrench,
+  GraduationCap,
+  Rocket,
+  Timer,
+  UserCheck,
+  CalendarClock,
+  MessageSquare,
+  ClipboardList,
+  FlaskConical,
 } from "lucide-react";
 import logoIcon from "figma:asset/5671362e46764389b665ff1fad478cea5f46eaa8.png";
 import productVideo from "../../imports/Screen_Recording_2026-04-09_230205.mp4";
@@ -58,17 +68,111 @@ const securityPillars = [
   },
 ];
 
+const implementationPillars = [
+  {
+    icon: Search,
+    title: "Discovery",
+    description:
+      "We begin by meeting with your district to understand your scheduling structure, constraints, staffing model, and goals before any configuration begins.",
+    color: "bg-blue-50 text-blue-600",
+  },
+  {
+    icon: Wrench,
+    title: "Build",
+    description:
+      "Your dedicated scheduling expert configures the platform around your district's specific needs, course catalog, and requirements.",
+    color: "bg-amber-50 text-amber-600",
+  },
+  {
+    icon: GraduationCap,
+    title: "Training",
+    description:
+      "We conduct in-person training with your scheduling staff to ensure your team is fully prepared to use the platform with confidence.",
+    color: "bg-emerald-50 text-emerald-600",
+  },
+  {
+    icon: Rocket,
+    title: "Go-Live",
+    description:
+      "The platform is live and ready for your district to begin building your master schedule.",
+    color: "bg-purple-50 text-purple-600",
+  },
+];
+
+const supportPillars = [
+  {
+    icon: Timer,
+    title: "One Business Day Response",
+    description:
+      "All support requests receive a response within one business day, so your team is never left waiting on a critical issue.",
+    color: "bg-blue-50 text-blue-600",
+  },
+  {
+    icon: UserCheck,
+    title: "Always a Human",
+    description:
+      "Every support interaction connects you with a real scheduling expert. No chatbots, no automated ticket queues.",
+    color: "bg-emerald-50 text-emerald-600",
+  },
+  {
+    icon: CalendarClock,
+    title: "Scheduling Season Coverage",
+    description:
+      "We provide increased support availability during peak scheduling periods, when your team needs it most.",
+    color: "bg-amber-50 text-amber-600",
+  },
+];
+
+const updatesPillars = [
+  {
+    icon: MessageSquare,
+    title: "Client Feedback",
+    description:
+      "All clients are encouraged to share feedback on an ongoing basis. We actively solicit input and treat it as a core part of how the platform evolves.",
+    color: "bg-blue-50 text-blue-600",
+  },
+  {
+    icon: ClipboardList,
+    title: "Regular Surveys",
+    description:
+      "We distribute structured surveys to gather district input and use those responses to inform our development priorities.",
+    color: "bg-amber-50 text-amber-600",
+  },
+  {
+    icon: FlaskConical,
+    title: "Feature Testing",
+    description:
+      "New features are tested with districts before broad release, giving clients early access and ensuring changes are validated in real scheduling environments.",
+    color: "bg-emerald-50 text-emerald-600",
+  },
+];
+
 const accordionMeta: Record<string, string> = {
   "Security and Compliance": "FERPA · NY §2-d · MA WISP · Encryption",
-  "Dedicated Implementation Team": "Onboarding · Training · Go-live support",
-  "Ongoing Support": "Phone · Email · Live chat",
-  "Regular Platform Updates": "Continuous improvement · District-driven",
+  "Dedicated Implementation Team": "Discovery · Build · Training · Go-live",
+  "Ongoing Support": "1-day response · Human support · Seasonal coverage",
+  "Regular Platform Updates": "Client feedback · Surveys · Feature testing",
+};
+
+const accordionPillars: Record<string, typeof securityPillars> = {
+  "Security and Compliance": securityPillars,
+  "Dedicated Implementation Team": implementationPillars,
+  "Ongoing Support": supportPillars,
+  "Regular Platform Updates": updatesPillars,
+};
+
+const accordionIntro: Record<string, string> = {
+  "Security and Compliance": "In a FERPA-regulated environment, security is a foundation. Here is how we approach it.",
+  "Dedicated Implementation Team": "Every district gets a dedicated scheduling expert who guides you through each phase, from initial discovery to go-live.",
+  "Ongoing Support": "After go-live, your district has direct access to our team — not a helpdesk queue.",
+  "Regular Platform Updates": "Schedule Beacon improves continuously, driven by direct input from the districts we work with.",
 };
 
 function PlatformAccordion({ feature, index }: { feature: typeof platformFeatures[0]; index: number }) {
   const [open, setOpen] = useState(false);
-  const isSecurityDetail = "securityDetail" in feature && feature.securityDetail;
   const meta = accordionMeta[feature.title] ?? "";
+  const pillars = accordionPillars[feature.title] ?? [];
+  const intro = accordionIntro[feature.title] ?? "";
   return (
     <motion.div
       className="rounded-2xl border overflow-hidden transition-colors duration-200"
@@ -121,37 +225,33 @@ function PlatformAccordion({ feature, index }: { feature: typeof platformFeature
             transition={{ duration: 0.25, ease: "easeInOut" }}
             style={{ overflow: "hidden" }}
           >
-            {isSecurityDetail ? (
-              <div className="px-6 pb-7">
+            <div className="px-6 pb-7">
+              {intro && (
                 <p className="text-[var(--midnight-blue)]/60 text-sm mb-6" style={{ lineHeight: 1.7 }}>
-                  In a FERPA-regulated environment, security is a foundation. Here is how we approach it.
+                  {intro}
                 </p>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                  {securityPillars.map((pillar, i) => (
-                    <div key={i} className="p-5 rounded-xl border border-gray-100 bg-gray-50/50">
-                      <div className={`w-9 h-9 rounded-lg flex items-center justify-center mb-3 ${pillar.color}`}>
-                        <pillar.icon className="w-4 h-4" />
-                      </div>
-                      <h4 className="text-[var(--midnight-blue)] mb-1.5 text-sm" style={{ fontWeight: 700 }}>
-                        {pillar.title}
-                      </h4>
-                      <p className="text-[var(--midnight-blue)]/55 text-sm" style={{ lineHeight: 1.65 }}>
-                        {pillar.description}
-                      </p>
+              )}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {pillars.map((pillar, i) => (
+                  <div key={i} className="p-5 rounded-xl border border-gray-100 bg-gray-50/50">
+                    <div className={`w-9 h-9 rounded-lg flex items-center justify-center mb-3 ${pillar.color}`}>
+                      <pillar.icon className="w-4 h-4" />
                     </div>
-                  ))}
-                </div>
-                <p className="text-[var(--midnight-blue)]/50 text-sm" style={{ lineHeight: 1.7 }}>
+                    <h4 className="text-[var(--midnight-blue)] mb-1.5 text-sm" style={{ fontWeight: 700 }}>
+                      {pillar.title}
+                    </h4>
+                    <p className="text-[var(--midnight-blue)]/55 text-sm" style={{ lineHeight: 1.65 }}>
+                      {pillar.description}
+                    </p>
+                  </div>
+                ))}
+              </div>
+              {feature.title === "Security and Compliance" && (
+                <p className="text-[var(--midnight-blue)]/50 text-sm mt-6" style={{ lineHeight: 1.7 }}>
                   Security and compliance are not a one-time checklist — they are an ongoing responsibility that evolves alongside our platform and the regulatory landscape districts operate within. We are glad to walk any district's IT or compliance team through our infrastructure, data handling, and privacy practices in detail.
                 </p>
-              </div>
-            ) : (
-              <div className="px-6 pb-6 pl-[4.25rem]">
-                <p className="text-[var(--midnight-blue)]/55 text-sm" style={{ lineHeight: 1.7 }}>
-                  {feature.description}
-                </p>
-              </div>
-            )}
+              )}
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
@@ -203,30 +303,10 @@ const benefits = [
 ];
 
 const platformFeatures = [
-  {
-    icon: Shield,
-    title: "Security and Compliance",
-    description: "",
-    securityDetail: true,
-  },
-  {
-    icon: Users,
-    title: "Dedicated Implementation Team",
-    description:
-      "Your own scheduling expert guides onboarding, training, and your first build from day one through go-live.",
-  },
-  {
-    icon: Clock,
-    title: "Ongoing Support",
-    description:
-      "Phone, email, and live chat support from real scheduling experts, not a general helpdesk.",
-  },
-  {
-    icon: TrendingUp,
-    title: "Regular Platform Updates",
-    description:
-      "We continuously gather feedback from the districts we are working with to inform new features and improvements shipped to the platform.",
-  },
+  { icon: Shield, title: "Security and Compliance" },
+  { icon: Users, title: "Dedicated Implementation Team" },
+  { icon: Clock, title: "Ongoing Support" },
+  { icon: TrendingUp, title: "Regular Platform Updates" },
 ];
 
 export function Products() {
