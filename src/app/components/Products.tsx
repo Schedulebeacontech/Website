@@ -49,14 +49,30 @@ const securityPillars = [
       "Role-based access controls and authentication safeguards ensure only authorized district staff can view or modify scheduling data.",
     color: "bg-rose-50 text-rose-600",
   },
+  {
+    icon: FileCheck,
+    title: "WISP (MA 201 CMR 17.00)",
+    description:
+      "Schedule Beacon maintains a Written Information Security Program in accordance with Massachusetts 201 CMR 17.00, establishing documented policies and procedures for protecting personal information of Massachusetts residents.",
+    color: "bg-violet-50 text-violet-600",
+  },
 ];
+
+const accordionMeta: Record<string, string> = {
+  "Security and Compliance": "FERPA · NY §2-d · MA WISP · Encryption",
+  "Dedicated Implementation Team": "Onboarding · Training · Go-live support",
+  "Ongoing Support": "Phone · Email · Live chat",
+  "Regular Platform Updates": "Continuous improvement · District-driven",
+};
 
 function PlatformAccordion({ feature, index }: { feature: typeof platformFeatures[0]; index: number }) {
   const [open, setOpen] = useState(false);
   const isSecurityDetail = "securityDetail" in feature && feature.securityDetail;
+  const meta = accordionMeta[feature.title] ?? "";
   return (
     <motion.div
-      className="rounded-2xl border border-gray-100 overflow-hidden"
+      className="rounded-2xl border overflow-hidden transition-colors duration-200"
+      style={{ borderColor: open ? "var(--midnight-blue)" : "rgb(243 244 246)" }}
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
@@ -64,18 +80,36 @@ function PlatformAccordion({ feature, index }: { feature: typeof platformFeature
     >
       <button
         onClick={() => setOpen(!open)}
-        className="w-full flex items-center gap-5 p-6 text-left hover:bg-gray-50 transition-colors"
+        className="w-full flex items-center gap-5 px-6 py-5 text-left transition-colors duration-200"
+        style={{ background: open ? "rgba(0,33,71,0.03)" : "white" }}
       >
-        <div className="w-11 h-11 bg-[var(--university-gold)]/15 rounded-xl flex items-center justify-center shrink-0">
+        {/* Left accent bar */}
+        <div
+          className="w-1 self-stretch rounded-full shrink-0 transition-colors duration-200"
+          style={{ background: open ? "var(--university-gold)" : "rgb(229 231 235)", minHeight: "2.5rem" }}
+        />
+        <div className="w-10 h-10 bg-[var(--university-gold)]/15 rounded-xl flex items-center justify-center shrink-0">
           <feature.icon className="w-5 h-5 text-[var(--midnight-blue)]" />
         </div>
-        <span className="flex-1 text-[var(--midnight-blue)]" style={{ fontSize: "1rem", fontWeight: 600 }}>
-          {feature.title}
-        </span>
-        <ChevronDown
-          className="w-5 h-5 text-[var(--midnight-blue)]/40 shrink-0 transition-transform duration-300"
-          style={{ transform: open ? "rotate(180deg)" : "rotate(0deg)" }}
-        />
+        <div className="flex-1 min-w-0">
+          <div className="text-[var(--midnight-blue)]" style={{ fontSize: "1rem", fontWeight: 600 }}>
+            {feature.title}
+          </div>
+          {meta && (
+            <div className="text-[var(--midnight-blue)]/40 text-xs mt-0.5 truncate" style={{ fontWeight: 500, letterSpacing: "0.01em" }}>
+              {meta}
+            </div>
+          )}
+        </div>
+        <div
+          className="w-7 h-7 rounded-full flex items-center justify-center shrink-0 transition-colors duration-200"
+          style={{ background: open ? "var(--midnight-blue)" : "rgb(243 244 246)" }}
+        >
+          <ChevronDown
+            className="w-4 h-4 transition-transform duration-300"
+            style={{ transform: open ? "rotate(180deg)" : "rotate(0deg)", color: open ? "var(--university-gold)" : "rgb(156 163 175)" }}
+          />
+        </div>
       </button>
       <AnimatePresence initial={false}>
         {open && (
