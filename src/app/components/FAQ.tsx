@@ -9,6 +9,7 @@ const faqCategories = [
   { label: "General", value: "general" },
   { label: "Product", value: "product" },
   { label: "Implementation", value: "implementation" },
+  { label: "Security", value: "security" },
 ];
 
 const faqs = [
@@ -28,13 +29,13 @@ const faqs = [
     category: "general",
     question: "How is Schedule Beacon different from other scheduling tools?",
     answer:
-      "Most scheduling tools were built decades ago and require significant manual effort. Schedule Beacon was purpose-built for modern districts with an intelligent optimization engine that automates the heavy lifting, constraint-aware configuration, and direct SIS integration, so you spend days, not months, building your schedule.",
+      "Most scheduling tools were built decades ago and require significant manual effort. Schedule Beacon was purpose-built for modern districts with an intelligent optimization engine that automates the heavy lifting and constraint-aware configuration, so you spend days, not months, building your schedule.",
   },
   {
     category: "product",
     question: "What student information systems (SIS) does Schedule Beacon integrate with?",
     answer:
-      "Schedule Beacon is designed to integrate with the most widely used SIS platforms in K-12 education, including PowerSchool, Skyward, and Infinite Campus. Our integration layer syncs student enrollment, course requests, and room data automatically, eliminating manual data entry.",
+      "SIS integration is a feature we are actively working on and plan to support in a future release. We will provide updates as this becomes available. In the meantime, our team is happy to discuss your district's data workflow and how we can accommodate it during implementation.",
   },
   {
     category: "product",
@@ -46,7 +47,7 @@ const faqs = [
     category: "product",
     question: "Does Schedule Beacon support block scheduling and other non-traditional structures?",
     answer:
-      "Yes. Schedule Beacon is flexible enough to support traditional period-based schedules, A/B block schedules, semester-based structures, and hybrid models. During onboarding, our team works with you to configure the platform to match your district's existing schedule structure.",
+      "Schedule Beacon supports traditional period-based schedules, A/B block schedules, semester-based structures, and hybrid models. Support for unique bell schedules is a feature we are currently working to implement and is not yet available. During onboarding, our team works with you to configure the platform to match your district's existing schedule structure.",
   },
   {
     category: "product",
@@ -58,19 +59,49 @@ const faqs = [
     category: "implementation",
     question: "How long does it take to get up and running?",
     answer:
-      "Onboarding includes SIS integration setup, configuration of your district's scheduling constraints, and training for your scheduling team. We assign a dedicated implementation specialist to guide you through every step.",
+      "From the start of your training period through go-live, districts are typically up and running in less than two weeks. Our dedicated implementation specialist guides you through every step, including configuration of your district's scheduling constraints and hands-on training for your scheduling team.",
   },
   {
     category: "implementation",
     question: "What kind of support does Schedule Beacon provide?",
     answer:
-      "We provide hands-on support throughout implementation and ongoing support once you're live. This includes a dedicated customer success manager, email and phone support during business hours, and a knowledge base with guides and video walkthroughs.",
+      "We provide hands-on support throughout implementation and ongoing support once you're live. All support requests receive a response within one business day, and every interaction connects you with a real scheduling expert — not a chatbot or automated queue. We also provide increased support coverage during peak scheduling periods.",
   },
   {
     category: "implementation",
     question: "Do you offer training for our scheduling team?",
     answer:
-      "Yes. Every implementation includes live training sessions for your scheduling team, covering everything from initial data setup to publishing your first schedule. We also provide recorded walkthroughs your team can reference at any time.",
+      "Yes. Every implementation includes in-person training sessions for your scheduling team, covering everything from initial data setup to building your first schedule. We also provide recorded walkthroughs your team can reference at any time.",
+  },
+  {
+    category: "security",
+    question: "Is Schedule Beacon FERPA compliant?",
+    answer:
+      "Yes. Schedule Beacon is built around FERPA requirements. We treat student scheduling data as education records subject to FERPA protections, and our data handling practices reflect that obligation.",
+  },
+  {
+    category: "security",
+    question: "Does Schedule Beacon comply with New York Education Law §2-d?",
+    answer:
+      "Yes. Schedule Beacon's data practices align with New York Education Law §2-d. We are glad to provide a Data Processing Agreement to any district that requires one as part of their vendor approval process.",
+  },
+  {
+    category: "security",
+    question: "Does Schedule Beacon have a Written Information Security Program (WISP)?",
+    answer:
+      "Yes. Schedule Beacon maintains a WISP in accordance with Massachusetts 201 CMR 17.00, which establishes our documented policies and procedures for protecting personal information.",
+  },
+  {
+    category: "security",
+    question: "How is student data protected within Schedule Beacon?",
+    answer:
+      "Student and district data is encrypted both in transit and at rest. Access to scheduling data is governed by role-based access controls, ensuring only authorized district personnel can view or modify records. Our infrastructure is hosted on reputable cloud providers configured around the principle of least privilege.",
+  },
+  {
+    category: "security",
+    question: "Who can we contact with security or compliance questions?",
+    answer:
+      "Reach out to our team directly at info@schedulebeacon.com or by calling 518-419-5335. We are glad to work directly with your district's IT or compliance staff to answer any questions.",
   },
 ];
 
