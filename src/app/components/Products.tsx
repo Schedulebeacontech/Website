@@ -12,12 +12,48 @@ import {
   TrendingUp,
   Clock,
   ChevronDown,
+  Lock,
+  Server,
+  KeyRound,
+  FileCheck,
 } from "lucide-react";
 import logoIcon from "figma:asset/5671362e46764389b665ff1fad478cea5f46eaa8.png";
 import productVideo from "../../imports/Screen_Recording_2026-04-09_230205.mp4";
 
+const securityPillars = [
+  {
+    icon: FileCheck,
+    title: "FERPA & NY Ed Law §2-d",
+    description:
+      "Schedule Beacon is built around student data privacy requirements from the ground up, including FERPA and New York Education Law §2-d, so districts can adopt the platform with confidence.",
+    color: "bg-blue-50 text-blue-600",
+  },
+  {
+    icon: Server,
+    title: "Modern, Secure Infrastructure",
+    description:
+      "The platform runs on reputable cloud infrastructure providers, with environments configured around the principle of least privilege and continuous monitoring.",
+    color: "bg-amber-50 text-amber-600",
+  },
+  {
+    icon: Lock,
+    title: "Encryption in Transit and at Rest",
+    description:
+      "Student and district data is encrypted both in transit and at rest, ensuring information stays protected whether it is moving through our systems or stored within them.",
+    color: "bg-emerald-50 text-emerald-600",
+  },
+  {
+    icon: KeyRound,
+    title: "Access Controls",
+    description:
+      "Role-based access controls and authentication safeguards ensure only authorized district staff can view or modify scheduling data.",
+    color: "bg-rose-50 text-rose-600",
+  },
+];
+
 function PlatformAccordion({ feature, index }: { feature: typeof platformFeatures[0]; index: number }) {
   const [open, setOpen] = useState(false);
+  const isSecurityDetail = "securityDetail" in feature && feature.securityDetail;
   return (
     <motion.div
       className="rounded-2xl border border-gray-100 overflow-hidden"
@@ -51,11 +87,37 @@ function PlatformAccordion({ feature, index }: { feature: typeof platformFeature
             transition={{ duration: 0.25, ease: "easeInOut" }}
             style={{ overflow: "hidden" }}
           >
-            <div className="px-6 pb-6 pl-[4.25rem]">
-              <p className="text-[var(--midnight-blue)]/55 text-sm" style={{ lineHeight: 1.7 }}>
-                {feature.description}
-              </p>
-            </div>
+            {isSecurityDetail ? (
+              <div className="px-6 pb-7">
+                <p className="text-[var(--midnight-blue)]/60 text-sm mb-6" style={{ lineHeight: 1.7 }}>
+                  In a FERPA-regulated environment, security is a foundation. Here is how we approach it.
+                </p>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                  {securityPillars.map((pillar, i) => (
+                    <div key={i} className="p-5 rounded-xl border border-gray-100 bg-gray-50/50">
+                      <div className={`w-9 h-9 rounded-lg flex items-center justify-center mb-3 ${pillar.color}`}>
+                        <pillar.icon className="w-4 h-4" />
+                      </div>
+                      <h4 className="text-[var(--midnight-blue)] mb-1.5 text-sm" style={{ fontWeight: 700 }}>
+                        {pillar.title}
+                      </h4>
+                      <p className="text-[var(--midnight-blue)]/55 text-sm" style={{ lineHeight: 1.65 }}>
+                        {pillar.description}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+                <p className="text-[var(--midnight-blue)]/50 text-sm" style={{ lineHeight: 1.7 }}>
+                  Security and compliance are not a one-time checklist — they are an ongoing responsibility that evolves alongside our platform and the regulatory landscape districts operate within. We are glad to walk any district's IT or compliance team through our infrastructure, data handling, and privacy practices in detail.
+                </p>
+              </div>
+            ) : (
+              <div className="px-6 pb-6 pl-[4.25rem]">
+                <p className="text-[var(--midnight-blue)]/55 text-sm" style={{ lineHeight: 1.7 }}>
+                  {feature.description}
+                </p>
+              </div>
+            )}
           </motion.div>
         )}
       </AnimatePresence>
@@ -94,7 +156,7 @@ const coreFeatures = [
   },
   {
     icon: Settings,
-    title: "Simple UI and Interfaces",
+    title: "Simple UI",
     description:
       "Purpose-built screens designed around how scheduling coordinators actually work. Each view surfaces the right information at the right time, reducing training overhead and minimizing the risk of user error.",
     color: "bg-indigo-50 text-indigo-600",
@@ -109,9 +171,9 @@ const benefits = [
 const platformFeatures = [
   {
     icon: Shield,
-    title: "Enterprise-Grade Security",
-    description:
-      "Schedule Beacon is going to be built with role-based access controls and end-to-end encryption to protect your district's data at every layer of the platform.",
+    title: "Security and Compliance",
+    description: "",
+    securityDetail: true,
   },
   {
     icon: Users,
@@ -246,7 +308,7 @@ export function Products() {
           </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {coreFeatures.map((feature, i) => (
+            {coreFeatures.slice(0, 3).map((feature, i) => (
               <motion.div
                 key={i}
                 className="p-7 rounded-2xl border border-gray-100 hover:border-[var(--midnight-blue)]/20 hover:shadow-lg transition-all bg-white"
@@ -254,6 +316,28 @@ export function Products() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: i * 0.08 }}
+              >
+                <div className={`w-11 h-11 rounded-xl flex items-center justify-center mb-5 ${feature.color}`}>
+                  <feature.icon className="w-5 h-5" />
+                </div>
+                <h3 className="text-[var(--midnight-blue)] mb-2.5" style={{ fontSize: "1rem" }}>
+                  {feature.title}
+                </h3>
+                <p className="text-[var(--midnight-blue)]/55 text-sm" style={{ lineHeight: 1.7 }}>
+                  {feature.description}
+                </p>
+              </motion.div>
+            ))}
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:w-2/3 mx-auto mt-6">
+            {coreFeatures.slice(3).map((feature, i) => (
+              <motion.div
+                key={i}
+                className="p-7 rounded-2xl border border-gray-100 hover:border-[var(--midnight-blue)]/20 hover:shadow-lg transition-all bg-white"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: (i + 3) * 0.08 }}
               >
                 <div className={`w-11 h-11 rounded-xl flex items-center justify-center mb-5 ${feature.color}`}>
                   <feature.icon className="w-5 h-5" />
@@ -305,8 +389,8 @@ export function Products() {
                     viewport={{ once: true }}
                     transition={{ duration: 0.5, delay: (ci * 3 + i) * 0.08 }}
                   >
-                    <CheckCircle className="w-5 h-5 text-[var(--university-gold)] shrink-0 mt-0.5" />
-                    <span className="text-white/80 text-base">{benefit}</span>
+                    <CheckCircle className="w-5 h-5 text-[var(--university-gold)] shrink-0 mt-1" />
+                    <span className="text-white/80 text-xl" style={{ lineHeight: 1.5 }}>{benefit}</span>
                   </motion.div>
                 ))}
               </div>
@@ -369,14 +453,6 @@ export function Products() {
                 style={{ fontWeight: 600 }}
               >
                 Contact Us
-              </Link>
-              <Link
-                to="/security"
-                className="inline-flex items-center gap-2 border border-white/30 text-white px-6 py-3 rounded-xl hover:bg-white/10 transition-all text-sm"
-                style={{ fontWeight: 600 }}
-              >
-                <Shield className="w-4 h-4" />
-                Security
               </Link>
               <Link
                 to="/demo"
