@@ -232,7 +232,7 @@ function PlatformAccordion({ feature, index }: { feature: typeof platformFeature
             transition={{ duration: 0.25, ease: "easeInOut" }}
             style={{ overflow: "hidden" }}
           >
-            <div className="px-6 pb-7">
+            <div className="px-6 pb-7 pt-2">
               {intro && (
                 <p className="text-[var(--midnight-blue)]/75 mb-6" style={{ fontSize: "1rem", fontWeight: 600, lineHeight: 1.6 }}>
                   {intro}
@@ -262,7 +262,7 @@ function PlatformAccordion({ feature, index }: { feature: typeof platformFeature
                 })}
               </div>
               {feature.title === "Security and Compliance" && (
-                <p className="text-[var(--midnight-blue)]/50 text-sm mt-6" style={{ lineHeight: 1.7 }}>
+                <p className="text-[var(--midnight-blue)]/75 mt-6" style={{ fontSize: "1rem", fontWeight: 600, lineHeight: 1.6 }}>
                   Security and compliance are not a one-time checklist — they are an ongoing responsibility that evolves alongside our platform and the regulatory landscape districts operate within. We are glad to walk any district's IT or compliance team through our infrastructure, data handling, and privacy practices in detail.
                 </p>
               )}
