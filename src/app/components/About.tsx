@@ -222,13 +222,23 @@ export function About() {
               transition={{ duration: 0.8 }}
               className="relative"
             >
-              <div className="relative" style={{ height: "320px" }}>
-                <img
-                  src={foundersIncubator}
-                  alt="Schedule Beacon founders at Incubator Works"
-                  className="rounded-2xl object-cover object-top shadow-xl"
-                  style={{ width: "100%", height: "100%" }}
-                />
+              <div className="flex flex-col gap-4">
+                <div className="flex justify-start">
+                  <img
+                    src={foundersIncubator}
+                    alt="Schedule Beacon founders at Incubator Works"
+                    className="rounded-2xl object-cover object-center shadow-lg"
+                    style={{ width: "78%", aspectRatio: "4/3" }}
+                  />
+                </div>
+                <div className="flex justify-end">
+                  <img
+                    src={foundersPanel}
+                    alt="Schedule Beacon founders at panel"
+                    className="rounded-2xl object-cover object-center shadow-lg"
+                    style={{ width: "78%", aspectRatio: "4/3" }}
+                  />
+                </div>
               </div>
               <div className="absolute -bottom-6 -right-6 bg-white rounded-xl shadow-xl p-5 border border-gray-100" style={{ zIndex: 3 }}>
                 <div className="flex items-center gap-3">
