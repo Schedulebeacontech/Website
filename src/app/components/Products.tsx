@@ -33,9 +33,9 @@ import productVideo from "../../imports/Screen_Recording_2026-04-09_230205.mp4";
 const securityPillars = [
   {
     icon: FileCheck,
-    title: "FERPA & NY Ed Law §2-d",
+    title: "FERPA",
     description:
-      "Schedule Beacon is built around student data privacy requirements from the ground up, including FERPA and New York Education Law §2-d, so districts can adopt the platform with confidence.",
+      "Schedule Beacon is built around FERPA requirements from the ground up, ensuring student education records are handled with the protections federal law requires.",
     color: "bg-blue-50 text-blue-600",
   },
   {
@@ -58,6 +58,13 @@ const securityPillars = [
     description:
       "Role-based access controls and authentication safeguards ensure only authorized district staff can view or modify scheduling data.",
     color: "bg-rose-50 text-rose-600",
+  },
+  {
+    icon: FileCheck,
+    title: "NY Education Law §2-d",
+    description:
+      "Schedule Beacon's data practices align with New York Education Law §2-d, supporting districts in meeting their obligations under state student privacy law.",
+    color: "bg-indigo-50 text-indigo-600",
   },
   {
     icon: FileCheck,
@@ -148,7 +155,7 @@ const updatesPillars = [
 ];
 
 const accordionMeta: Record<string, string> = {
-  "Security and Compliance": "FERPA · NY §2-d · MA WISP · Encryption",
+  "Security and Compliance": "FERPA · NY §2-d · MA WISP · Encryption · Access Controls",
   "Dedicated Implementation Team": "Discovery · Build · Training · Go-live",
   "Ongoing Support": "1-day response · Human support · Seasonal coverage",
   "Regular Platform Updates": "Client feedback · Surveys · Feature testing",
@@ -227,24 +234,32 @@ function PlatformAccordion({ feature, index }: { feature: typeof platformFeature
           >
             <div className="px-6 pb-7">
               {intro && (
-                <p className="text-[var(--midnight-blue)]/60 text-sm mb-6" style={{ lineHeight: 1.7 }}>
+                <p className="text-[var(--midnight-blue)]/75 mb-6" style={{ fontSize: "1rem", fontWeight: 600, lineHeight: 1.6 }}>
                   {intro}
                 </p>
               )}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {pillars.map((pillar, i) => (
-                  <div key={i} className="p-5 rounded-xl border border-gray-100 bg-gray-50/50">
-                    <div className={`w-9 h-9 rounded-lg flex items-center justify-center mb-3 ${pillar.color}`}>
-                      <pillar.icon className="w-4 h-4" />
+                {pillars.map((pillar, i) => {
+                  const isOddTotal = pillars.length % 2 !== 0;
+                  const isLastOdd = isOddTotal && i === pillars.length - 1;
+                  return (
+                    <div
+                      key={i}
+                      className="p-5 rounded-xl border border-gray-100 bg-gray-50/50"
+                      style={isLastOdd ? { gridColumn: "1 / -1", maxWidth: "calc(50% - 8px)", margin: "0 auto", width: "100%" } : {}}
+                    >
+                      <div className={`w-9 h-9 rounded-lg flex items-center justify-center mb-3 ${pillar.color}`}>
+                        <pillar.icon className="w-4 h-4" />
+                      </div>
+                      <h4 className="text-[var(--midnight-blue)] mb-1.5 text-sm" style={{ fontWeight: 700 }}>
+                        {pillar.title}
+                      </h4>
+                      <p className="text-[var(--midnight-blue)]/55 text-sm" style={{ lineHeight: 1.65 }}>
+                        {pillar.description}
+                      </p>
                     </div>
-                    <h4 className="text-[var(--midnight-blue)] mb-1.5 text-sm" style={{ fontWeight: 700 }}>
-                      {pillar.title}
-                    </h4>
-                    <p className="text-[var(--midnight-blue)]/55 text-sm" style={{ lineHeight: 1.65 }}>
-                      {pillar.description}
-                    </p>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
               {feature.title === "Security and Compliance" && (
                 <p className="text-[var(--midnight-blue)]/50 text-sm mt-6" style={{ lineHeight: 1.7 }}>
