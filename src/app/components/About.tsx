@@ -35,7 +35,6 @@ const founders = [
 ];
 
 function ValuesWheel() {
-  const [active, setActive] = useState<number | null>(null);
   const quadrants = [
     { id: 0, label: "We put people first", principle: "We prioritize the well-being and growth of our team, partners, and the communities we serve above all. Technology is a tool; people are the purpose." },
     { id: 1, label: "We act with integrity", principle: "We do the right thing, even when no one is watching. Transparency, honesty, and ethical responsibility are non-negotiable in our pursuit of progress." },
@@ -45,65 +44,34 @@ function ValuesWheel() {
 
   return (
     <div className="relative grid grid-cols-2 gap-4 max-w-3xl mx-auto">
-      {quadrants.map((q) => {
-        const isActive = active === q.id;
-        return (
-          <motion.div
-            key={q.id}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: q.id * 0.08 }}
+      {quadrants.map((q) => (
+        <motion.div
+          key={q.id}
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: q.id * 0.08 }}
+        >
+          <div
+            className="w-full rounded-2xl p-7 text-left"
+            style={{ background: "var(--university-gold)", border: "1.5px solid var(--university-gold)" }}
           >
-            <button
-              onClick={() => setActive(isActive ? null : q.id)}
-              className="w-full rounded-2xl p-7 text-left transition-all duration-300"
-              style={{
-                background: isActive ? "var(--university-gold)" : "rgba(255,255,255,0.06)",
-                border: isActive ? "1.5px solid var(--university-gold)" : "1.5px solid rgba(255,255,255,0.1)",
-              }}
-            >
-              <div
-                className="text-4xl mb-3 font-bold"
-                style={{ color: isActive ? "var(--midnight-blue)" : "rgba(255,199,44,0.3)" }}
-              >
-                0{q.id + 1}
-              </div>
-              <div
-                className="text-lg font-bold leading-snug"
-                style={{ color: isActive ? "var(--midnight-blue)" : "white" }}
-              >
-                {q.label}
-              </div>
-              <AnimatePresence initial={false}>
-                {isActive && (
-                  <motion.div
-                    key="content"
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: "auto" }}
-                    exit={{ opacity: 0, height: 0 }}
-                    transition={{ duration: 0.22, ease: "easeInOut" }}
-                    style={{ overflow: "hidden" }}
-                  >
-                    <p className="text-sm leading-relaxed mt-3" style={{ color: "var(--midnight-blue)", opacity: 0.75 }}>
-                      {q.principle}
-                    </p>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-              {!isActive && (
-                <div className="mt-2 text-xs font-medium" style={{ color: "rgba(255,199,44,0.45)" }}>
-                  Tap to expand
-                </div>
-              )}
-            </button>
-          </motion.div>
-        );
-      })}
+            <div className="text-3xl mb-3 font-bold" style={{ color: "rgba(0,33,71,0.25)" }}>
+              0{q.id + 1}
+            </div>
+            <div className="font-bold leading-snug mb-3" style={{ color: "var(--midnight-blue)", fontSize: "1.35rem" }}>
+              {q.label}
+            </div>
+            <p className="text-sm leading-relaxed" style={{ color: "var(--midnight-blue)", opacity: 0.7 }}>
+              {q.principle}
+            </p>
+          </div>
+        </motion.div>
+      ))}
 
       {/* Center logo badge */}
       <div className="absolute inset-0 pointer-events-none flex items-center justify-center" style={{ zIndex: 10 }}>
-        <div className="w-16 h-16 rounded-full bg-[var(--midnight-blue)] border-4 border-[var(--university-gold)]/40 flex items-center justify-center shadow-2xl">
+        <div className="w-16 h-16 rounded-full bg-[var(--midnight-blue)] border-4 border-white/20 flex items-center justify-center shadow-2xl">
           <img src={logoIcon} alt="" aria-hidden className="w-9 h-9 object-contain" style={{ filter: "brightness(0) invert(1)" }} />
         </div>
       </div>
@@ -254,18 +222,12 @@ export function About() {
               transition={{ duration: 0.8 }}
               className="relative"
             >
-              <div className="relative" style={{ height: "340px" }}>
+              <div className="relative" style={{ height: "320px" }}>
                 <img
                   src={foundersIncubator}
                   alt="Schedule Beacon founders at Incubator Works"
-                  className="rounded-2xl object-cover object-top absolute shadow-lg"
-                  style={{ width: "72%", aspectRatio: "4/3", top: 0, left: 0, zIndex: 2 }}
-                />
-                <img
-                  src={foundersPanel}
-                  alt="Schedule Beacon founders at panel"
-                  className="rounded-2xl object-cover object-center absolute shadow-xl"
-                  style={{ width: "72%", aspectRatio: "4/3", bottom: 0, right: 0, zIndex: 1, filter: "brightness(1)" }}
+                  className="rounded-2xl object-cover object-top shadow-xl"
+                  style={{ width: "100%", height: "100%" }}
                 />
               </div>
               <div className="absolute -bottom-6 -right-6 bg-white rounded-xl shadow-xl p-5 border border-gray-100" style={{ zIndex: 3 }}>
