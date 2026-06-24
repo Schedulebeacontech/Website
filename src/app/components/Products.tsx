@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Link } from "react-router";
 import {
@@ -28,7 +28,6 @@ import {
   FlaskConical,
 } from "lucide-react";
 import logoIcon from "figma:asset/5671362e46764389b665ff1fad478cea5f46eaa8.png";
-import conflictImg from "../../assets/feature-conflict-resolution.png";
 
 const securityPillars = [
   {
@@ -274,172 +273,6 @@ function PlatformAccordion({ feature, index }: { feature: typeof platformFeature
   );
 }
 
-const showcaseFeatures = [
-  {
-    tab: "Automated Scheduling",
-    icon: Zap,
-    title: "Build the optimal schedule automatically",
-    description:
-      "Our intelligent algorithm ingests your district's data — courses, teachers, rooms, and student requests — and generates a high-performance master schedule that maximizes resource utilization and balances class loads across every building.",
-    color: "bg-blue-50 text-blue-600",
-    image: null as string | null,
-  },
-  {
-    tab: "Constraint Optimization",
-    icon: RefreshCw,
-    title: "Scheduling that adapts to your district's rules",
-    description:
-      "Every district is different. Our constraint engine lets you encode your specific logic — faculty certifications, room capacity limits, period restrictions, and more — so the output fits how your schools actually operate, not a generic template.",
-    color: "bg-amber-50 text-amber-600",
-    image: null as string | null,
-  },
-  {
-    tab: "FTE Optimization",
-    icon: Users,
-    title: "Make the most of every staff member",
-    description:
-      "Schedule Beacon identifies gaps and inefficiencies in staff utilization before they become costly. Ensure every full-time staff member is used to their full capability — saving districts thousands of dollars in staff hours each year.",
-    color: "bg-purple-50 text-purple-600",
-    image: null as string | null,
-  },
-  {
-    tab: "Conflict Resolution",
-    icon: CheckCircle,
-    title: "See every conflict clearly, resolve it fast",
-    description:
-      "A dedicated conflict management workspace that surfaces scheduling conflicts through clear, intuitive visualizations. Administrators can immediately understand what's blocking a student, see which sections are affected, and follow actionable resolution recommendations — before any issue reaches a student.",
-    color: "bg-emerald-50 text-emerald-600",
-    image: conflictImg,
-  },
-  {
-    tab: "Simple UI",
-    icon: Settings,
-    title: "Purpose-built for how schedulers actually work",
-    description:
-      "Every screen in Schedule Beacon is designed around real scheduling workflows. Each view surfaces the right information at the right time, reducing training overhead and minimizing the risk of user error — even during the most complex scheduling seasons.",
-    color: "bg-indigo-50 text-indigo-600",
-    image: null as string | null,
-  },
-];
-
-function FeatureShowcase() {
-  const [active, setActive] = React.useState(0);
-  const f = showcaseFeatures[active];
-
-  return (
-    <div>
-      {/* Tab row */}
-      <div className="flex border-b border-gray-200 mb-16 overflow-x-auto gap-0">
-        {showcaseFeatures.map((feat, i) => (
-          <button
-            key={i}
-            onClick={() => setActive(i)}
-            className={`pb-4 px-1 mr-8 text-sm whitespace-nowrap transition-all shrink-0 ${
-              i === active
-                ? "text-[var(--midnight-blue)] border-b-2 border-[var(--midnight-blue)]"
-                : "text-[var(--midnight-blue)]/40 hover:text-[var(--midnight-blue)]/70"
-            }`}
-            style={{ fontWeight: i === active ? 700 : 500 }}
-          >
-            {feat.tab}
-          </button>
-        ))}
-      </div>
-
-      {/* Content */}
-      <motion.div
-        key={active}
-        initial={{ opacity: 0, y: 14 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.35, ease: "easeOut" }}
-      >
-        {f.image ? (
-          /* Text above, full-width screenshot below */
-          <div>
-            {/* Text */}
-            <div className="max-w-2xl mb-12">
-              <div className={`w-12 h-12 rounded-xl flex items-center justify-center mb-5 ${f.color}`}>
-                <f.icon className="w-5 h-5" />
-              </div>
-              <h3
-                className="text-[var(--midnight-blue)] mb-4"
-                style={{ fontSize: "1.85rem", fontWeight: 800, lineHeight: 1.2 }}
-              >
-                {f.title}
-              </h3>
-              <p
-                className="text-[var(--midnight-blue)]/55"
-                style={{ fontSize: "1.05rem", lineHeight: 1.8 }}
-              >
-                {f.description}
-              </p>
-            </div>
-
-            {/* Full-width browser frame + screenshot */}
-            <div className="rounded-2xl overflow-hidden shadow-[0_24px_64px_rgba(0,33,71,0.16)] border border-gray-100">
-              {/* Chrome bar */}
-              <div className="bg-[#f0f0f0] border-b border-black/[0.07] px-4 py-2.5 flex items-center gap-3">
-                <div className="flex gap-1.5 shrink-0">
-                  <div className="w-3 h-3 rounded-full bg-[#ff5f57]" />
-                  <div className="w-3 h-3 rounded-full bg-[#febc2e]" />
-                  <div className="w-3 h-3 rounded-full bg-[#28c840]" />
-                </div>
-                <div className="flex-1 bg-white/80 rounded-md px-3 py-1 text-xs text-gray-400 border border-black/[0.07] flex items-center gap-2 min-w-0">
-                  <div className="w-2 h-2 bg-green-400 rounded-full shrink-0" />
-                  <span className="truncate">app.schedulebeacon.com</span>
-                </div>
-              </div>
-              {/* Screenshot — fills full width, scales up crop for readability */}
-              <img
-                src={f.image}
-                alt={f.tab}
-                className="w-full block"
-              />
-            </div>
-          </div>
-        ) : (
-          /* Centered layout for text-only tabs */
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-            <div>
-              <div className={`w-12 h-12 rounded-xl flex items-center justify-center mb-6 ${f.color}`}>
-                <f.icon className="w-5 h-5" />
-              </div>
-              <h3
-                className="text-[var(--midnight-blue)] mb-5"
-                style={{ fontSize: "1.85rem", fontWeight: 800, lineHeight: 1.2 }}
-              >
-                {f.title}
-              </h3>
-              <p
-                className="text-[var(--midnight-blue)]/55"
-                style={{ fontSize: "1.05rem", lineHeight: 1.8 }}
-              >
-                {f.description}
-              </p>
-            </div>
-            {/* Placeholder for upcoming screenshot */}
-            <div
-              className="rounded-2xl border-2 border-dashed border-gray-200 bg-gray-50/60 flex flex-col items-center justify-center gap-4 text-center"
-              style={{ minHeight: 300, padding: "3rem" }}
-            >
-              <div className={`w-16 h-16 rounded-2xl flex items-center justify-center ${f.color}`}>
-                <f.icon className="w-7 h-7" />
-              </div>
-              <div>
-                <p className="text-[var(--midnight-blue)]/40 text-sm" style={{ fontWeight: 600 }}>
-                  Screenshot coming soon
-                </p>
-                <p className="text-[var(--midnight-blue)]/25 text-xs mt-1">
-                  Send us the app screenshot for this feature and we'll wire it in.
-                </p>
-              </div>
-            </div>
-          </div>
-        )}
-      </motion.div>
-    </div>
-  );
-}
 
 const coreFeatures = [
   {
@@ -587,7 +420,50 @@ export function Products() {
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.1 }}
           >
-            <FeatureShowcase />
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {coreFeatures.slice(0, 3).map((feature, i) => (
+              <motion.div
+                key={i}
+                className="p-7 rounded-2xl border border-gray-100 hover:border-[var(--midnight-blue)]/20 hover:shadow-lg transition-all bg-white"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: i * 0.08 }}
+              >
+                <div className={`w-11 h-11 rounded-xl flex items-center justify-center mb-5 ${feature.color}`}>
+                  <feature.icon className="w-5 h-5" />
+                </div>
+                <h3 className="text-[var(--midnight-blue)] mb-2.5" style={{ fontSize: "1rem", fontWeight: 700 }}>
+                  {feature.title}
+                </h3>
+                <p className="text-[var(--midnight-blue)]/55 text-sm" style={{ lineHeight: 1.7 }}>
+                  {feature.description}
+                </p>
+              </motion.div>
+            ))}
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:w-2/3 mx-auto mt-6">
+            {coreFeatures.slice(3).map((feature, i) => (
+              <motion.div
+                key={i}
+                className="p-7 rounded-2xl border border-gray-100 hover:border-[var(--midnight-blue)]/20 hover:shadow-lg transition-all bg-white"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: (i + 3) * 0.08 }}
+              >
+                <div className={`w-11 h-11 rounded-xl flex items-center justify-center mb-5 ${feature.color}`}>
+                  <feature.icon className="w-5 h-5" />
+                </div>
+                <h3 className="text-[var(--midnight-blue)] mb-2.5" style={{ fontSize: "1rem", fontWeight: 700 }}>
+                  {feature.title}
+                </h3>
+                <p className="text-[var(--midnight-blue)]/55 text-sm" style={{ lineHeight: 1.7 }}>
+                  {feature.description}
+                </p>
+              </motion.div>
+            ))}
+          </div>
           </motion.div>
         </div>
       </section>
