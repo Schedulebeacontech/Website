@@ -493,12 +493,12 @@ export function Products() {
           }}
         />
 
-        {/* Brand watermark */}
+        {/* Brand watermark — centered behind heading */}
         <img
           src={logoIcon}
           alt=""
           aria-hidden="true"
-          className="absolute right-[-60px] top-1/2 -translate-y-1/2 w-[420px] pointer-events-none select-none"
+          className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[360px] pointer-events-none select-none"
           style={{ mixBlendMode: "multiply", opacity: 0.06 }}
         />
 
