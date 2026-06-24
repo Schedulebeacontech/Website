@@ -13,7 +13,6 @@ import {
   RefreshCw,
   TrendingUp as _TrendingUp,
   ChevronRight,
-  ChevronLeft,
   XCircle,
   Clock,
   AlertTriangle,
@@ -109,29 +108,119 @@ function HeroVisual() {
   );
 }
 
+import conflictImg from "../../assets/feature-conflict-resolution.png";
+
 const features = [
   {
+    tab: "Automated Scheduling",
     icon: Zap,
-    title: "Automated Scheduling Engine",
+    title: "Build the optimal schedule automatically",
     description:
-      "An intelligent algorithm that ingests school-specific data to generate high-performance master schedules, maximizing resources and balancing class loads across your district.",
+      "Our intelligent algorithm ingests your district's data — courses, teachers, rooms, and student requests — and generates a high-performance master schedule that maximizes resource utilization and balances class loads.",
     color: "bg-blue-50 text-blue-600",
+    image: null as string | null,
+    imagePlaceholder: true,
   },
   {
+    tab: "Constraint Optimization",
     icon: RefreshCw,
-    title: "Constraint Optimization",
+    title: "Scheduling that adapts to your district's rules",
     description:
-      "A flexible configuration tool that lets each district customize their scheduling logic, accommodating faculty certifications, room capacity limits, and other unique district needs.",
+      "Every district is different. Our constraint engine lets you encode your specific logic — faculty certifications, room capacity limits, period restrictions, and more — so the output fits how your schools actually operate.",
     color: "bg-amber-50 text-amber-600",
+    image: null as string | null,
+    imagePlaceholder: true,
   },
   {
+    tab: "Conflict Resolution",
     icon: AlertTriangle,
-    title: "Conflict Identification & Resolution",
+    title: "See every conflict clearly, resolve it fast",
     description:
-      "Schedule Beacon surfaces scheduling conflicts through clear, intuitive visualizations — making it easy for administrators to understand what's causing an issue and act on intelligent resolution recommendations before they impact students.",
+      "Schedule Beacon surfaces scheduling conflicts through clear, intuitive visualizations. Administrators can immediately understand what's blocking a student, see which sections are affected, and follow actionable resolution recommendations — before any issue reaches a student.",
     color: "bg-rose-50 text-rose-600",
+    image: conflictImg,
+    imagePlaceholder: false,
   },
 ];
+
+function FeatureShowcase() {
+  const [active, setActive] = React.useState(0);
+  const f = features[active];
+
+  return (
+    <div>
+      {/* ── Tab row ─────────────────────────────── */}
+      <div className="flex border-b border-gray-200 mb-14 overflow-x-auto">
+        {features.map((feat, i) => (
+          <button
+            key={i}
+            onClick={() => setActive(i)}
+            className={`flex items-center gap-2 pb-4 px-1 mr-10 text-sm whitespace-nowrap transition-colors ${
+              i === active
+                ? "text-[var(--midnight-blue)] border-b-2 border-[var(--midnight-blue)]"
+                : "text-[var(--midnight-blue)]/40 hover:text-[var(--midnight-blue)]/70"
+            }`}
+            style={{ fontWeight: i === active ? 700 : 500 }}
+          >
+            {feat.tab}
+          </button>
+        ))}
+      </div>
+
+      {/* ── Content ─────────────────────────────── */}
+      <motion.div
+        key={active}
+        initial={{ opacity: 0, y: 12 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.35, ease: "easeOut" }}
+        className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center"
+      >
+        {/* Left — text */}
+        <div>
+          <div className={`w-12 h-12 rounded-xl flex items-center justify-center mb-6 ${f.color}`}>
+            <f.icon className="w-5 h-5" />
+          </div>
+          <h3
+            className="text-[var(--midnight-blue)] mb-4"
+            style={{ fontSize: "2rem", fontWeight: 800, lineHeight: 1.2 }}
+          >
+            {f.title}
+          </h3>
+          <p
+            className="text-[var(--midnight-blue)]/55"
+            style={{ fontSize: "1.05rem", lineHeight: 1.78 }}
+          >
+            {f.description}
+          </p>
+        </div>
+
+        {/* Right — visual */}
+        <div>
+          {f.image ? (
+            <div className="rounded-2xl overflow-hidden shadow-[0_16px_48px_rgba(0,33,71,0.14)] border border-gray-100">
+              <img
+                src={f.image}
+                alt={f.tab}
+                className="w-full block"
+              />
+            </div>
+          ) : (
+            /* Placeholder for tabs awaiting screenshots */
+            <div className="rounded-2xl border-2 border-dashed border-gray-200 bg-gray-50 flex flex-col items-center justify-center gap-3 text-center p-12" style={{ minHeight: 260 }}>
+              <div className={`w-14 h-14 rounded-xl flex items-center justify-center ${f.color}`}>
+                <f.icon className="w-6 h-6" />
+              </div>
+              <p className="text-[var(--midnight-blue)]/30 text-sm" style={{ fontWeight: 500 }}>
+                Screenshot coming soon
+              </p>
+            </div>
+          )}
+        </div>
+      </motion.div>
+    </div>
+  );
+}
+
 
 const steps = [
   {
@@ -180,130 +269,6 @@ const solutions = [
     text: "When schedules are built on the right technology, students get into the right classes. Better schedules lead directly to brighter futures.",
   },
 ];
-
-function FeatureCarousel() {
-  const [active, setActive] = React.useState(0);
-  const total = features.length;
-
-  const getPos = (i: number): "center" | "left" | "right" => {
-    const d = (i - active + total) % total;
-    if (d === 0) return "center";
-    if (d === 1) return "right";
-    return "left";
-  };
-
-  const goNext = () => setActive((a) => (a + 1) % total);
-  const goPrev = () => setActive((a) => (a + total - 1) % total);
-
-  return (
-    <div className="relative select-none">
-      {/* Viewport — clips the side cards */}
-      <div className="relative overflow-hidden" style={{ height: 520 }}>
-        <div className="absolute inset-0 flex items-center justify-center">
-          {features.map((feature, i) => {
-            const pos = getPos(i);
-            const isCenter = pos === "center";
-            const xVal = pos === "center" ? 0 : pos === "right" ? 520 : -520;
-
-            return (
-              <motion.div
-                key={feature.title}
-                className="absolute"
-                style={{ width: 540, cursor: isCenter ? "default" : "pointer" }}
-                animate={{
-                  x: xVal,
-                  scale: isCenter ? 1 : 0.72,
-                  opacity: isCenter ? 1 : 0.18,
-                  zIndex: isCenter ? 10 : 5,
-                  filter: isCenter ? "blur(0px)" : "blur(2px)",
-                }}
-                transition={{ duration: 0.5, ease: [0.32, 0.72, 0, 1] }}
-                onClick={() => { if (!isCenter) setActive(i); }}
-              >
-                <div
-                  className={`relative bg-white rounded-2xl p-10 transition-shadow ${
-                    isCenter
-                      ? "border border-gray-200 shadow-[0_28px_70px_rgba(0,33,71,0.16)]"
-                      : "border border-gray-100 shadow-md"
-                  }`}
-                  style={{ height: 500 }}
-                >
-                  {/* Faded number watermark */}
-                  <div
-                    className="absolute right-6 top-4 text-[6rem] font-black text-[var(--midnight-blue)] leading-none select-none pointer-events-none"
-                    style={{ opacity: 0.04 }}
-                  >
-                    {String(i + 1).padStart(2, "0")}
-                  </div>
-
-                  {/* Subtle gold sweep on active */}
-                  {isCenter && (
-                    <div className="absolute inset-0 bg-gradient-to-br from-[var(--university-gold)]/5 to-transparent rounded-2xl pointer-events-none" />
-                  )}
-
-                  <div className="relative z-10 h-full flex flex-col">
-                    {/* Icon */}
-                    <div className={`w-14 h-14 rounded-xl flex items-center justify-center mb-6 ${feature.color}`}>
-                      <feature.icon className="w-6 h-6" />
-                    </div>
-
-                    {/* Title */}
-                    <h3
-                      className="text-[var(--midnight-blue)] mb-4"
-                      style={{ fontSize: "2.25rem", fontWeight: 800, lineHeight: 1.15 }}
-                    >
-                      {feature.title}
-                    </h3>
-
-                    {/* Description */}
-                    <p className="text-[var(--midnight-blue)]/55 flex-1" style={{ fontSize: "1.15rem", lineHeight: 1.72 }}>
-                      {feature.description}
-                    </p>
-                  </div>
-                </div>
-              </motion.div>
-            );
-          })}
-        </div>
-      </div>
-
-      {/* Controls */}
-      <div className="flex items-center justify-center gap-5 mt-6">
-        <button
-          onClick={goPrev}
-          className="w-10 h-10 rounded-full border border-gray-200 bg-white shadow-sm flex items-center justify-center text-[var(--midnight-blue)]/50 hover:text-[var(--midnight-blue)] hover:border-[var(--midnight-blue)]/25 hover:shadow-md transition-all"
-          aria-label="Previous"
-        >
-          <ChevronLeft className="w-5 h-5" />
-        </button>
-
-        {/* Dot indicators */}
-        <div className="flex items-center gap-2">
-          {features.map((_, i) => (
-            <button
-              key={i}
-              onClick={() => setActive(i)}
-              className={`rounded-full transition-all duration-300 ${
-                i === active
-                  ? "w-6 h-2.5 bg-[var(--midnight-blue)]"
-                  : "w-2.5 h-2.5 bg-gray-300 hover:bg-gray-400"
-              }`}
-              aria-label={`Go to feature ${i + 1}`}
-            />
-          ))}
-        </div>
-
-        <button
-          onClick={goNext}
-          className="w-10 h-10 rounded-full border border-gray-200 bg-white shadow-sm flex items-center justify-center text-[var(--midnight-blue)]/50 hover:text-[var(--midnight-blue)] hover:border-[var(--midnight-blue)]/25 hover:shadow-md transition-all"
-          aria-label="Next"
-        >
-          <ChevronRight className="w-5 h-5" />
-        </button>
-      </div>
-    </div>
-  );
-}
 
 export function Home() {
   return (
@@ -606,7 +571,7 @@ export function Home() {
             </p>
           </motion.div>
 
-          <FeatureCarousel />
+          <FeatureShowcase />
         </div>
       </section>
 
