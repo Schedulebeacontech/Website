@@ -354,15 +354,15 @@ function FeatureShowcase() {
         transition={{ duration: 0.35, ease: "easeOut" }}
       >
         {f.image ? (
-          /* Full-width layout when there's a real screenshot */
-          <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 lg:gap-16 items-start">
-            {/* Left text — 2 cols */}
-            <div className="lg:col-span-2 lg:pt-4">
-              <div className={`w-13 h-13 w-12 h-12 rounded-xl flex items-center justify-center mb-6 ${f.color}`}>
+          /* Text above, full-width screenshot below */
+          <div>
+            {/* Text */}
+            <div className="max-w-2xl mb-12">
+              <div className={`w-12 h-12 rounded-xl flex items-center justify-center mb-5 ${f.color}`}>
                 <f.icon className="w-5 h-5" />
               </div>
               <h3
-                className="text-[var(--midnight-blue)] mb-5"
+                className="text-[var(--midnight-blue)] mb-4"
                 style={{ fontSize: "1.85rem", fontWeight: 800, lineHeight: 1.2 }}
               >
                 {f.title}
@@ -374,15 +374,27 @@ function FeatureShowcase() {
                 {f.description}
               </p>
             </div>
-            {/* Right screenshot — 3 cols */}
-            <div className="lg:col-span-3">
-              <div className="rounded-2xl overflow-hidden shadow-[0_20px_60px_rgba(0,33,71,0.16)] border border-gray-100">
-                <img
-                  src={f.image}
-                  alt={f.tab}
-                  className="w-full block"
-                />
+
+            {/* Full-width browser frame + screenshot */}
+            <div className="rounded-2xl overflow-hidden shadow-[0_24px_64px_rgba(0,33,71,0.16)] border border-gray-100">
+              {/* Chrome bar */}
+              <div className="bg-[#f0f0f0] border-b border-black/[0.07] px-4 py-2.5 flex items-center gap-3">
+                <div className="flex gap-1.5 shrink-0">
+                  <div className="w-3 h-3 rounded-full bg-[#ff5f57]" />
+                  <div className="w-3 h-3 rounded-full bg-[#febc2e]" />
+                  <div className="w-3 h-3 rounded-full bg-[#28c840]" />
+                </div>
+                <div className="flex-1 bg-white/80 rounded-md px-3 py-1 text-xs text-gray-400 border border-black/[0.07] flex items-center gap-2 min-w-0">
+                  <div className="w-2 h-2 bg-green-400 rounded-full shrink-0" />
+                  <span className="truncate">app.schedulebeacon.com</span>
+                </div>
               </div>
+              {/* Screenshot — fills full width, scales up crop for readability */}
+              <img
+                src={f.image}
+                alt={f.tab}
+                className="w-full block"
+              />
             </div>
           </div>
         ) : (
