@@ -28,7 +28,6 @@ import {
   FlaskConical,
 } from "lucide-react";
 import logoIcon from "figma:asset/5671362e46764389b665ff1fad478cea5f46eaa8.png";
-import productVideo from "../../imports/Screen_Recording_2026-04-09_230205.mp4";
 import conflictImg from "../../assets/feature-conflict-resolution.png";
 
 const securityPillars = [
@@ -503,68 +502,46 @@ export function Products() {
           style={{ mixBlendMode: "multiply", opacity: 0.06 }}
         />
 
-        <div className="max-w-7xl mx-auto px-6 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7 }}
+        <div className="max-w-4xl mx-auto px-6 relative z-10 text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7 }}
+          >
+            <span
+              className="inline-block text-sm bg-[var(--university-gold)]/15 text-[var(--midnight-blue)] px-4 py-1.5 rounded-full mb-6"
+              style={{ fontWeight: 600 }}
             >
-              <span
-                className="inline-block text-sm bg-[var(--university-gold)]/15 text-[var(--midnight-blue)] px-4 py-1.5 rounded-full mb-6"
+              The Platform
+            </span>
+            <h1
+              className="text-5xl lg:text-6xl text-[var(--midnight-blue)] mb-6"
+              style={{ lineHeight: 1.1 }}
+            >
+              Master Scheduling,{" "}
+              <span className="text-[var(--university-gold)]">Reimagined</span>
+            </h1>
+            <p className="text-lg text-[var(--midnight-blue)]/55 mb-8 max-w-xl mx-auto" style={{ lineHeight: 1.7 }}>
+              Purpose-built for K-12 school districts. Build master schedules in days, while ensuring every student gets the courses they need.
+            </p>
+            <div className="flex flex-wrap justify-center gap-3">
+              <Link
+                to="/demo"
+                className="inline-flex items-center gap-2 bg-[var(--university-gold)] text-[var(--midnight-blue)] px-7 py-3.5 rounded-xl hover:bg-[var(--university-gold)]/90 transition-all hover:shadow-lg"
+                style={{ fontWeight: 700 }}
+              >
+                Request a Demo
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+              <Link
+                to="/resources"
+                className="inline-flex items-center gap-2 border border-[var(--midnight-blue)]/20 text-[var(--midnight-blue)] px-7 py-3.5 rounded-xl hover:border-[var(--midnight-blue)]/40 hover:bg-gray-50 transition-all"
                 style={{ fontWeight: 600 }}
               >
-                The Platform
-              </span>
-              <h1
-                className="text-5xl lg:text-6xl text-[var(--midnight-blue)] mb-6"
-                style={{ lineHeight: 1.1 }}
-              >
-                Master Scheduling,{" "}
-                <span className="text-[var(--university-gold)]">Reimagined</span>
-              </h1>
-              <p className="text-lg text-[var(--midnight-blue)]/55 mb-8 max-w-lg" style={{ lineHeight: 1.7 }}>
-                Purpose-built for K-12 school districts. Build master schedules in days, while ensuring every student gets the courses they need.
-              </p>
-              <div className="flex flex-wrap gap-3">
-                <Link
-                  to="/demo"
-                  className="inline-flex items-center gap-2 bg-[var(--university-gold)] text-[var(--midnight-blue)] px-7 py-3.5 rounded-xl hover:bg-[var(--university-gold)]/90 transition-all hover:shadow-lg"
-                  style={{ fontWeight: 700 }}
-                >
-                  Request a Demo
-                  <ArrowRight className="w-4 h-4" />
-                </Link>
-                <Link
-                  to="/resources"
-                  className="inline-flex items-center gap-2 border border-[var(--midnight-blue)]/20 text-[var(--midnight-blue)] px-7 py-3.5 rounded-xl hover:border-[var(--midnight-blue)]/40 hover:bg-gray-50 transition-all"
-                  style={{ fontWeight: 600 }}
-                >
-                  View Resources
-                </Link>
-              </div>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, scale: 0.97 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.9, delay: 0.2 }}
-              className="relative"
-            >
-              <div className="rounded-2xl overflow-hidden shadow-2xl w-full border border-gray-100">
-                <video
-                  src={productVideo}
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
-                  className="w-full h-full object-cover block"
-                  style={{ aspectRatio: "16/9" }}
-                />
-              </div>
-
-            </motion.div>
-          </div>
+                View Resources
+              </Link>
+            </div>
+          </motion.div>
         </div>
       </section>
 
@@ -572,7 +549,7 @@ export function Products() {
       <section id="features" className="py-28 bg-white">
         <div className="max-w-7xl mx-auto px-6">
           <motion.div
-            className="mb-16"
+            className="text-center mb-16"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -587,7 +564,7 @@ export function Products() {
             <h2 className="text-4xl text-[var(--midnight-blue)] mb-3">
               Everything districts need
             </h2>
-            <p className="text-lg text-[var(--midnight-blue)]/50 max-w-xl">
+            <p className="text-lg text-[var(--midnight-blue)]/50 max-w-xl mx-auto">
               From single high schools to large multi-site districts, Schedule Beacon adapts to your needs.
             </p>
           </motion.div>
