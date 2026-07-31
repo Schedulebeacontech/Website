@@ -4,6 +4,8 @@ import { Home } from "./components/Home";
 import { About } from "./components/About";
 import { Contact } from "./components/Contact";
 import { Careers } from "./components/Careers";
+import { ApplyEngineeringLead } from "./components/ApplyEngineeringLead";
+import { ApplyGeneralInterest } from "./components/ApplyGeneralInterest";
 import { Products } from "./components/Products";
 import { Resources } from "./components/Resources";
 import { RequestDemo } from "./components/RequestDemo";
@@ -19,6 +21,8 @@ export const router = createBrowserRouter([
       { path: "about", Component: About },
       { path: "contact", Component: Contact },
       { path: "careers", Component: Careers },
+      { path: "careers/apply/engineering-lead", Component: ApplyEngineeringLead },
+      { path: "careers/apply/general-interest", Component: ApplyGeneralInterest },
       { path: "products", Component: Products },
       { path: "resources", Component: Resources },
       { path: "demo", Component: RequestDemo },

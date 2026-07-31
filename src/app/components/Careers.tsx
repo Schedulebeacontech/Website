@@ -1,22 +1,8 @@
 import { motion, AnimatePresence } from "motion/react";
-import {
-  Mail,
-  Send,
-  Loader2,
-  AlertCircle,
-  ChevronDown,
-  MapPin,
-  Clock,
-  DollarSign,
-  Heart,
-  Rocket,
-  Users,
-  Sparkles,
-} from "lucide-react";
-import { useRef, useState } from "react";
-import emailjs from "@emailjs/browser";
+import { ChevronDown, MapPin, Clock, DollarSign, Heart, Rocket, Users, Sparkles } from "lucide-react";
+import { useState } from "react";
+import { Link } from "react-router";
 import logoIcon from "../../assets/logo-watermark-hires.png";
-import { EMAILJS_CONFIG, isCareersEmailJSConfigured } from "../lib/emailjs";
 
 const perks = [
   {
@@ -44,6 +30,7 @@ const perks = [
 const openRoles = [
   {
     title: "Engineering Lead",
+    applyPath: "/careers/apply/engineering-lead",
     company: "Schedule Beacon LLC",
     hours: "~10–20 hrs/week, part-time, remote",
     location: "Remote — US time zones preferred",
@@ -114,7 +101,7 @@ const openRoles = [
   },
 ];
 
-function RoleCard({ role, onApply }: { role: (typeof openRoles)[number]; onApply: (title: string) => void }) {
+function RoleCard({ role }: { role: (typeof openRoles)[number] }) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -156,13 +143,13 @@ function RoleCard({ role, onApply }: { role: (typeof openRoles)[number]; onApply
           </div>
 
           <div className="flex md:flex-col gap-3 shrink-0">
-            <button
-              onClick={() => onApply(role.title)}
-              className="bg-[var(--midnight-blue)] text-white px-6 py-3 rounded-xl hover:bg-[var(--midnight-blue)]/90 transition-all hover:shadow-md text-sm whitespace-nowrap"
+            <Link
+              to={role.applyPath}
+              className="text-center bg-[var(--midnight-blue)] text-white px-6 py-3 rounded-xl hover:bg-[var(--midnight-blue)]/90 transition-all hover:shadow-md text-sm whitespace-nowrap"
               style={{ fontWeight: 700 }}
             >
               Apply Now
-            </button>
+            </Link>
             <button
               onClick={() => setOpen(!open)}
               className="flex items-center justify-center gap-2 px-6 py-3 rounded-xl border border-gray-200 text-[var(--midnight-blue)] hover:bg-[var(--soft-grey)] transition-all text-sm whitespace-nowrap"
@@ -216,13 +203,13 @@ function RoleCard({ role, onApply }: { role: (typeof openRoles)[number]; onApply
               ))}
 
               <div className="pt-2">
-                <button
-                  onClick={() => onApply(role.title)}
-                  className="bg-[var(--university-gold)] text-[var(--midnight-blue)] px-6 py-3 rounded-xl hover:bg-[var(--university-gold)]/90 transition-all hover:shadow-md text-sm"
+                <Link
+                  to={role.applyPath}
+                  className="inline-block bg-[var(--university-gold)] text-[var(--midnight-blue)] px-6 py-3 rounded-xl hover:bg-[var(--university-gold)]/90 transition-all hover:shadow-md text-sm"
                   style={{ fontWeight: 700 }}
                 >
                   Apply for {role.title}
-                </button>
+                </Link>
               </div>
             </div>
           </motion.div>
@@ -233,77 +220,6 @@ function RoleCard({ role, onApply }: { role: (typeof openRoles)[number]; onApply
 }
 
 export function Careers() {
-  const formRef = useRef<HTMLDivElement>(null);
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    linkedin: "",
-    position: "",
-    message: "",
-  });
-  const [submitted, setSubmitted] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  const scrollToForm = (roleTitle?: string) => {
-    if (roleTitle) {
-      setFormData((prev) => ({ ...prev, position: roleTitle }));
-    }
-    formRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-  };
-
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
-  ) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError(null);
-
-    if (!isCareersEmailJSConfigured()) {
-      console.warn(
-        "[Schedule Beacon] Careers EmailJS template is not configured. Open /src/app/lib/emailjs.ts and fill in CAREERS_TEMPLATE_ID."
-      );
-      setSubmitted(true);
-      return;
-    }
-
-    setLoading(true);
-    try {
-      await emailjs.send(
-        EMAILJS_CONFIG.SERVICE_ID,
-        EMAILJS_CONFIG.CAREERS_TEMPLATE_ID,
-        {
-          from_name: formData.name,
-          from_email: formData.email,
-          phone: formData.phone || "Not provided",
-          linkedin: formData.linkedin || "Not provided",
-          position: formData.position || "General Interest",
-          message: formData.message,
-          to_email: "info@schedulebeacon.com",
-        },
-        { publicKey: EMAILJS_CONFIG.PUBLIC_KEY }
-      );
-      setSubmitted(true);
-    } catch (err) {
-      console.error("EmailJS error:", err);
-      setError("Something went wrong sending your application. Please try emailing us directly at info@schedulebeacon.com.");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const resumeSubject = encodeURIComponent(
-    `Resume — ${formData.position || "General Interest"}${formData.name ? " — " + formData.name : ""}`
-  );
-  const resumeBody = encodeURIComponent(
-    `Hi Schedule Beacon team,\n\nPlease find my resume attached for the ${formData.position || "General Interest"} application.\n\nName: ${formData.name || ""}\nEmail: ${formData.email || ""}\n\nThanks,\n${formData.name || ""}`
-  );
-  const mailtoHref = `mailto:info@schedulebeacon.com?subject=${resumeSubject}&body=${resumeBody}`;
-
   return (
     <div>
       {/* ── Page Hero ───────────────────────────────────────── */}
@@ -391,7 +307,7 @@ export function Careers() {
 
           <div className="space-y-6">
             {openRoles.map((role) => (
-              <RoleCard key={role.title} role={role} onApply={scrollToForm} />
+              <RoleCard key={role.title} role={role} />
             ))}
           </div>
 
@@ -408,198 +324,16 @@ export function Careers() {
             </h3>
             <p className="text-[var(--midnight-blue)]/55 text-sm mb-5 max-w-xl mx-auto">
               We're growing and always open to hearing from talented people who believe in what we're building.
-              Send us your information below and we'll keep you in mind for future opportunities.
+              Tell us about yourself and we'll keep you in mind for future opportunities.
             </p>
-            <button
-              onClick={() => scrollToForm("General Interest")}
-              className="bg-[var(--midnight-blue)] text-white px-6 py-3 rounded-xl hover:bg-[var(--midnight-blue)]/90 transition-all hover:shadow-md text-sm"
+            <Link
+              to="/careers/apply/general-interest"
+              className="inline-block bg-[var(--midnight-blue)] text-white px-6 py-3 rounded-xl hover:bg-[var(--midnight-blue)]/90 transition-all hover:shadow-md text-sm"
               style={{ fontWeight: 700 }}
             >
               Submit General Interest
-            </button>
+            </Link>
           </motion.div>
-        </div>
-      </section>
-
-      {/* ── Application Form ────────────────────────────────── */}
-      <section ref={formRef} className="py-24 bg-white scroll-mt-20">
-        <div className="max-w-3xl mx-auto px-6">
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="text-center mb-12"
-          >
-            <h2 className="text-3xl lg:text-4xl text-[var(--midnight-blue)] mb-4">Apply</h2>
-            <p className="text-[var(--midnight-blue)]/55 text-lg">
-              Tell us a bit about yourself. This form works whether you're applying to an open role or just want to
-              get on our radar.
-            </p>
-          </motion.div>
-
-          {submitted ? (
-            <div className="text-center py-12 border border-gray-100 rounded-2xl bg-[var(--soft-grey)]/40">
-              <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                <Send className="w-8 h-8 text-emerald-600" />
-              </div>
-              <h3 className="text-2xl text-[var(--midnight-blue)] mb-3">Application received!</h3>
-              <p className="text-[var(--midnight-blue)]/55 max-w-md mx-auto mb-8">
-                Thanks for reaching out. One last step — please email your resume to{" "}
-                <a href="mailto:info@schedulebeacon.com" className="underline" style={{ fontWeight: 600 }}>
-                  info@schedulebeacon.com
-                </a>{" "}
-                so we can connect it to your application.
-              </p>
-              <a
-                href={mailtoHref}
-                className="inline-flex items-center gap-2 bg-[var(--midnight-blue)] text-white px-6 py-3.5 rounded-xl hover:bg-[var(--midnight-blue)]/90 transition-all hover:shadow-lg"
-                style={{ fontWeight: 700 }}
-              >
-                <Mail className="w-4 h-4" />
-                Email Your Resume
-              </a>
-            </div>
-          ) : (
-            <form onSubmit={handleSubmit} className="space-y-5">
-              {/* Resume note up top so it's not missed */}
-              <div className="flex items-start gap-3 bg-[var(--university-gold)]/10 border border-[var(--university-gold)]/30 rounded-xl p-4">
-                <Mail className="w-4 h-4 text-[var(--midnight-blue)] shrink-0 mt-0.5" />
-                <p className="text-[var(--midnight-blue)]/75 text-sm" style={{ lineHeight: 1.6 }}>
-                  This form doesn't accept file uploads yet. After submitting, please email your resume directly to{" "}
-                  <a href="mailto:info@schedulebeacon.com" className="underline" style={{ fontWeight: 600 }}>
-                    info@schedulebeacon.com
-                  </a>{" "}
-                  — we'll give you a pre-filled button on the confirmation screen to make it quick.
-                </p>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                <div>
-                  <label className="block text-sm text-[var(--midnight-blue)] mb-1.5" style={{ fontWeight: 600 }}>
-                    Full Name *
-                  </label>
-                  <input
-                    type="text"
-                    name="name"
-                    required
-                    value={formData.name}
-                    onChange={handleChange}
-                    placeholder="Jane Smith"
-                    className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[var(--university-gold)] focus:border-transparent transition-all bg-white text-[var(--midnight-blue)] placeholder:text-gray-300"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm text-[var(--midnight-blue)] mb-1.5" style={{ fontWeight: 600 }}>
-                    Email *
-                  </label>
-                  <input
-                    type="email"
-                    name="email"
-                    required
-                    value={formData.email}
-                    onChange={handleChange}
-                    placeholder="jane@example.com"
-                    className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[var(--university-gold)] focus:border-transparent transition-all bg-white text-[var(--midnight-blue)] placeholder:text-gray-300"
-                  />
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                <div>
-                  <label className="block text-sm text-[var(--midnight-blue)] mb-1.5" style={{ fontWeight: 600 }}>
-                    Phone Number
-                  </label>
-                  <input
-                    type="tel"
-                    name="phone"
-                    value={formData.phone}
-                    onChange={handleChange}
-                    placeholder="(555) 000-0000"
-                    className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[var(--university-gold)] focus:border-transparent transition-all bg-white text-[var(--midnight-blue)] placeholder:text-gray-300"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm text-[var(--midnight-blue)] mb-1.5" style={{ fontWeight: 600 }}>
-                    LinkedIn / Portfolio
-                  </label>
-                  <input
-                    type="text"
-                    name="linkedin"
-                    value={formData.linkedin}
-                    onChange={handleChange}
-                    placeholder="linkedin.com/in/janesmith"
-                    className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[var(--university-gold)] focus:border-transparent transition-all bg-white text-[var(--midnight-blue)] placeholder:text-gray-300"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-sm text-[var(--midnight-blue)] mb-1.5" style={{ fontWeight: 600 }}>
-                  Position *
-                </label>
-                <select
-                  name="position"
-                  required
-                  value={formData.position}
-                  onChange={handleChange}
-                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[var(--university-gold)] focus:border-transparent transition-all bg-white text-[var(--midnight-blue)]"
-                >
-                  <option value="">Select a position</option>
-                  {openRoles.map((role) => (
-                    <option key={role.title} value={role.title}>
-                      {role.title}
-                    </option>
-                  ))}
-                  <option value="General Interest">General Interest / Future Roles</option>
-                </select>
-              </div>
-
-              <div>
-                <label className="block text-sm text-[var(--midnight-blue)] mb-1.5" style={{ fontWeight: 600 }}>
-                  Why Schedule Beacon? *
-                </label>
-                <textarea
-                  name="message"
-                  required
-                  rows={5}
-                  value={formData.message}
-                  onChange={handleChange}
-                  placeholder="Tell us a bit about your background and why you're interested..."
-                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[var(--university-gold)] focus:border-transparent transition-all bg-white text-[var(--midnight-blue)] placeholder:text-gray-300 resize-none"
-                />
-              </div>
-
-              {error && (
-                <div className="flex items-start gap-3 bg-red-50 border border-red-100 rounded-xl p-4">
-                  <AlertCircle className="w-4 h-4 text-red-500 shrink-0 mt-0.5" />
-                  <p className="text-red-700 text-sm">{error}</p>
-                </div>
-              )}
-
-              <button
-                type="submit"
-                disabled={loading}
-                className="w-full bg-[var(--midnight-blue)] text-white py-4 rounded-xl hover:bg-[var(--midnight-blue)]/90 transition-all hover:shadow-lg flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
-                style={{ fontWeight: 700 }}
-              >
-                {loading ? (
-                  <>
-                    <Loader2 className="w-4 h-4 animate-spin" />
-                    Sending…
-                  </>
-                ) : (
-                  <>
-                    Submit Application
-                    <Send className="w-4 h-4" />
-                  </>
-                )}
-              </button>
-              <p className="text-xs text-center text-[var(--midnight-blue)]/40">
-                After submitting, remember to email your resume to info@schedulebeacon.com.
-              </p>
-            </form>
-          )}
         </div>
       </section>
     </div>

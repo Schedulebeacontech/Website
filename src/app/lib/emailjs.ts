@@ -40,24 +40,7 @@
  *
  *    → Copy the Template ID and paste below as DEMO_TEMPLATE_ID
  *
- * 5. Create a template for the CAREERS APPLICATION form:
- *    → Dashboard → Email Templates → Create New Template
- *    → Set "To email" to: info@schedulebeacon.com
- *    → Use these variables in your template body:
- *
- *        From: {{from_name}} ({{from_email}})
- *        Phone: {{phone}}
- *        LinkedIn/Portfolio: {{linkedin}}
- *        Position: {{position}}
- *        Message: {{message}}
- *
- *    → Note: this template does NOT include a resume attachment. Applicants
- *      are instructed on the confirmation screen to email their resume
- *      separately to info@schedulebeacon.com, so watch that inbox for
- *      resumes that arrive shortly after a careers application email.
- *    → Copy the Template ID and paste below as CAREERS_TEMPLATE_ID
- *
- * 6. Get your Public Key:
+ * 5. Get your Public Key:
  *    → Dashboard → Account → General → Public Key
  *    → Paste below as PUBLIC_KEY
  *
@@ -74,9 +57,6 @@ export const EMAILJS_CONFIG = {
   // ✅ Updated with your Demo Request Template ID
   DEMO_TEMPLATE_ID: "template_0nngotd",
 
-  // 🟢 ACTION REQUIRED: Paste your Careers Application Template ID here
-  CAREERS_TEMPLATE_ID: "YOUR_CAREERS_TEMPLATE_ID",
-
   // ✅ Updated with your Public Key
   PUBLIC_KEY: "5oZvqB3EBIcqZsJxK",
 };
@@ -87,9 +67,4 @@ export function isEmailJSConfigured(): boolean {
     !EMAILJS_CONFIG.SERVICE_ID.startsWith("YOUR_") &&
     !EMAILJS_CONFIG.PUBLIC_KEY.startsWith("YOUR_")
   );
-}
-
-/** Returns true if the Careers application template has been configured. */
-export function isCareersEmailJSConfigured(): boolean {
-  return isEmailJSConfigured() && !EMAILJS_CONFIG.CAREERS_TEMPLATE_ID.startsWith("YOUR_");
 }
