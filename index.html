@@ -16,26 +16,6 @@
     <body>
       <div id="root"></div>
       <script type="module" src="/src/main.tsx"></script>
-
-      <!--
-        Hidden static form so Netlify's build-time crawler can detect this form.
-        Netlify Forms only detects forms present in the static HTML output, but this
-        site renders its actual form client-side with React. This hidden duplicate
-        (never shown to users) registers the form name/fields with Netlify; the real
-        submission is handled in src/app/lib/netlifyForms.ts via a fetch POST to "/".
-        Field names here MUST match the names used in JobApplicationForm.tsx exactly.
-      -->
-      <form name="job-application" data-netlify="true" data-netlify-honeypot="bot-field" enctype="multipart/form-data" hidden>
-        <input type="hidden" name="form-name" value="job-application" />
-        <input type="text" name="bot-field" />
-        <input type="text" name="name" />
-        <input type="email" name="email" />
-        <input type="tel" name="phone" />
-        <input type="text" name="linkedin" />
-        <input type="text" name="position" />
-        <textarea name="message"></textarea>
-        <input type="file" name="resume" />
-      </form>
     </body>
   </html>
   

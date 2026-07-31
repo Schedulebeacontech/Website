@@ -1,9 +1,10 @@
 import { motion } from "motion/react";
 import { Send, Loader2, AlertCircle, Upload, FileText, X } from "lucide-react";
 import { useRef, useState } from "react";
-import { submitJobApplication } from "../lib/netlifyForms";
+import { submitJobApplication } from "../lib/jobApplications";
+import { isForminitConfigured } from "../lib/forminit";
 
-const MAX_RESUME_BYTES = 8 * 1024 * 1024; // Netlify Forms request size cap
+const MAX_RESUME_BYTES = 10 * 1024 * 1024; // keep well under Forminit's free-tier 50 MB total storage
 
 interface JobApplicationFormProps {
   /** Value stored in the "position" field of the submission. */
@@ -34,7 +35,7 @@ export function JobApplicationForm({ position, confirmationNote }: JobApplicatio
     const file = e.target.files?.[0] ?? null;
     setError(null);
     if (file && file.size > MAX_RESUME_BYTES) {
-      setError("That file is larger than 8 MB. Please upload a smaller file (PDF works best).");
+      setError("That file is larger than 10 MB. Please upload a smaller file (PDF works best).");
       if (fileInputRef.current) fileInputRef.current.value = "";
       setResume(null);
       return;
@@ -50,6 +51,15 @@ export function JobApplicationForm({ position, confirmationNote }: JobApplicatio
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
+
+    if (!isForminitConfigured()) {
+      console.warn(
+        "[Schedule Beacon] Forminit is not configured. Open /src/app/lib/forminit.ts and fill in FORM_ID."
+      );
+      setSubmitted(true);
+      return;
+    }
+
     setLoading(true);
     try {
       await submitJobApplication({
@@ -63,7 +73,7 @@ export function JobApplicationForm({ position, confirmationNote }: JobApplicatio
       });
       setSubmitted(true);
     } catch (err) {
-      console.error("Netlify Forms error:", err);
+      console.error("Forminit submission error:", err);
       setError(
         "Something went wrong submitting your application. Please try again, or email us directly at info@schedulebeacon.com."
       );
@@ -179,7 +189,7 @@ export function JobApplicationForm({ position, confirmationNote }: JobApplicatio
           <label className="flex items-center justify-center gap-2.5 px-4 py-6 border-2 border-dashed border-gray-200 rounded-xl cursor-pointer hover:border-[var(--university-gold)] hover:bg-[var(--university-gold)]/5 transition-all">
             <Upload className="w-4 h-4 text-[var(--midnight-blue)]/50" />
             <span className="text-sm text-[var(--midnight-blue)]/60">
-              Click to upload your resume <span className="text-[var(--midnight-blue)]/35">(PDF or Word, up to 8 MB)</span>
+              Click to upload your resume <span className="text-[var(--midnight-blue)]/35">(PDF or Word, up to 10 MB)</span>
             </span>
             <input
               ref={fileInputRef}
