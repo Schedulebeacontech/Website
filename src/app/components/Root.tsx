@@ -77,16 +77,10 @@ export function Root() {
           <Link to="/" className="flex items-center gap-2.5 shrink-0">
             <img src={logoIcon} alt="Schedule Beacon" className="h-11 w-auto" />
             <span
-              className="flex items-baseline gap-1.5 text-[var(--midnight-blue)] leading-none"
+              className="text-[var(--midnight-blue)] leading-none"
               style={{ fontFamily: "'Source Sans 3', sans-serif", fontWeight: 700, fontSize: "1.2rem", letterSpacing: "-0.01em" }}
             >
               Schedule Beacon
-              <span
-                className="text-[var(--midnight-blue)]/40"
-                style={{ fontSize: "0.7rem", fontWeight: 600, letterSpacing: "0.02em" }}
-              >
-                LLC
-              </span>
             </span>
           </Link>
 
@@ -359,7 +353,7 @@ export function Root() {
 
           <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
             <p className="text-white/40 text-sm">
-              © 2026 Schedule Beacon. All rights reserved.
+              © 2026 Schedule Beacon LLC. All rights reserved.
             </p>
             <div className="flex flex-col items-center md:items-end gap-2">
               <div className="flex gap-6">
