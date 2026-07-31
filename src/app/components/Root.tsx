@@ -77,10 +77,16 @@ export function Root() {
           <Link to="/" className="flex items-center gap-2.5 shrink-0">
             <img src={logoIcon} alt="Schedule Beacon" className="h-11 w-auto" />
             <span
-              className="text-[var(--midnight-blue)] leading-none"
+              className="flex items-baseline gap-1.5 text-[var(--midnight-blue)] leading-none"
               style={{ fontFamily: "'Source Sans 3', sans-serif", fontWeight: 700, fontSize: "1.2rem", letterSpacing: "-0.01em" }}
             >
               Schedule Beacon
+              <span
+                className="text-[var(--midnight-blue)]/40"
+                style={{ fontSize: "0.7rem", fontWeight: 600, letterSpacing: "0.02em" }}
+              >
+                LLC
+              </span>
             </span>
           </Link>
 
