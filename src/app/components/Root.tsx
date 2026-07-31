@@ -47,6 +47,7 @@ export function Root() {
     { path: "/faq", label: "FAQ" },
     { path: "/about", label: "About" },
     { path: "/contact", label: "Contact" },
+    { path: "/careers", label: "Careers" },
   ];
 
   const isActive = (path: string) => location.pathname === path;
@@ -204,6 +205,7 @@ export function Root() {
                 {[
                   { label: "About", path: "/about" },
                   { label: "Contact", path: "/contact" },
+                  { label: "Careers", path: "/careers" },
                   { label: "Resources", path: "/resources" },
                   { label: "FAQ", path: "/faq" },
                 ].map((item) => (
