@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from "motion/react";
-import { MapPin, Clock, DollarSign, ArrowRight, X } from "lucide-react";
+import { MapPin, Clock, DollarSign, ArrowRight, X, ChevronDown } from "lucide-react";
 import { useMemo, useState } from "react";
 import { Link } from "react-router";
 import logoIcon from "../../assets/logo-watermark-hires.png";
@@ -13,44 +13,42 @@ import {
   type LocationType,
 } from "../data/openRoles";
 
-function FilterGroup<T extends string>({
+const ALL = "All" as const;
+
+function FilterDropdown<T extends string>({
   label,
   options,
-  selected,
-  onToggle,
+  value,
+  onChange,
 }: {
   label: string;
   options: readonly T[];
-  selected: Set<T>;
-  onToggle: (value: T) => void;
+  value: T | typeof ALL;
+  onChange: (value: T | typeof ALL) => void;
 }) {
   return (
     <div>
-      <div
-        className="text-[var(--midnight-blue)]/45 text-xs mb-2.5 uppercase tracking-wide"
+      <label
+        className="block text-[var(--midnight-blue)]/45 text-xs mb-2 uppercase tracking-wide"
         style={{ fontWeight: 700, letterSpacing: "0.06em" }}
       >
         {label}
-      </div>
-      <div className="flex flex-wrap gap-2">
-        {options.map((option) => {
-          const isSelected = selected.has(option);
-          return (
-            <button
-              key={option}
-              type="button"
-              onClick={() => onToggle(option)}
-              className={`px-3.5 py-1.5 rounded-full text-sm border transition-all ${
-                isSelected
-                  ? "bg-[var(--university-gold)] border-[var(--university-gold)] text-[var(--midnight-blue)]"
-                  : "bg-white border-gray-200 text-[var(--midnight-blue)]/60 hover:border-[var(--midnight-blue)]/30"
-              }`}
-              style={{ fontWeight: 600 }}
-            >
+      </label>
+      <div className="relative">
+        <select
+          value={value}
+          onChange={(e) => onChange(e.target.value as T | typeof ALL)}
+          className="w-full appearance-none px-4 py-2.5 pr-9 border border-gray-200 rounded-xl bg-white text-[var(--midnight-blue)] text-sm focus:outline-none focus:ring-2 focus:ring-[var(--university-gold)] focus:border-transparent transition-all cursor-pointer"
+          style={{ fontWeight: 600 }}
+        >
+          <option value={ALL}>All</option>
+          {options.map((option) => (
+            <option key={option} value={option}>
               {option}
-            </button>
-          );
-        })}
+            </option>
+          ))}
+        </select>
+        <ChevronDown className="w-4 h-4 text-[var(--midnight-blue)]/40 absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
       </div>
     </div>
   );
@@ -65,7 +63,7 @@ function RoleCard({ role }: { role: (typeof openRoles)[number] }) {
       transition={{ duration: 0.5 }}
     >
       <Link
-        to={role.applyPath}
+        to={role.postingPath}
         className="group block border border-gray-100 rounded-2xl bg-white hover:border-[var(--midnight-blue)]/20 hover:shadow-md transition-all duration-200 p-7 md:p-8"
       >
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
@@ -82,6 +80,12 @@ function RoleCard({ role }: { role: (typeof openRoles)[number] }) {
                 style={{ fontWeight: 600 }}
               >
                 {role.commitment}
+              </span>
+              <span
+                className="inline-block text-xs bg-[var(--soft-grey)] text-[var(--midnight-blue)]/60 px-3 py-1 rounded-full"
+                style={{ fontWeight: 600 }}
+              >
+                {role.locationType}
               </span>
             </div>
             <h3 className="text-2xl text-[var(--midnight-blue)] mb-1" style={{ fontWeight: 700 }}>
@@ -119,32 +123,25 @@ function RoleCard({ role }: { role: (typeof openRoles)[number] }) {
 }
 
 export function Careers() {
-  const [departments, setDepartments] = useState<Set<Department>>(new Set());
-  const [commitments, setCommitments] = useState<Set<Commitment>>(new Set());
-  const [locationTypes, setLocationTypes] = useState<Set<LocationType>>(new Set());
-
-  const toggle = <T,>(set: Set<T>, setSet: (s: Set<T>) => void, value: T) => {
-    const next = new Set(set);
-    if (next.has(value)) next.delete(value);
-    else next.add(value);
-    setSet(next);
-  };
+  const [department, setDepartment] = useState<Department | typeof ALL>(ALL);
+  const [commitment, setCommitment] = useState<Commitment | typeof ALL>(ALL);
+  const [locationType, setLocationType] = useState<LocationType | typeof ALL>(ALL);
 
   const filteredRoles = useMemo(() => {
     return openRoles.filter((role) => {
-      if (departments.size > 0 && !departments.has(role.department)) return false;
-      if (commitments.size > 0 && !commitments.has(role.commitment)) return false;
-      if (locationTypes.size > 0 && !locationTypes.has(role.locationType)) return false;
+      if (department !== ALL && role.department !== department) return false;
+      if (commitment !== ALL && role.commitment !== commitment) return false;
+      if (locationType !== ALL && role.locationType !== locationType) return false;
       return true;
     });
-  }, [departments, commitments, locationTypes]);
+  }, [department, commitment, locationType]);
 
-  const activeFilterCount = departments.size + commitments.size + locationTypes.size;
+  const activeFilterCount = [department, commitment, locationType].filter((v) => v !== ALL).length;
 
   const clearFilters = () => {
-    setDepartments(new Set());
-    setCommitments(new Set());
-    setLocationTypes(new Set());
+    setDepartment(ALL);
+    setCommitment(ALL);
+    setLocationType(ALL);
   };
 
   return (
@@ -206,24 +203,19 @@ export function Careers() {
 
           {/* Filters */}
           <div className="bg-white border border-gray-100 rounded-2xl p-6 md:p-7 mb-8">
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-              <FilterGroup
-                label="Department"
-                options={DEPARTMENTS}
-                selected={departments}
-                onToggle={(value) => toggle(departments, setDepartments, value)}
-              />
-              <FilterGroup
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+              <FilterDropdown label="Department" options={DEPARTMENTS} value={department} onChange={setDepartment} />
+              <FilterDropdown
                 label="Time Commitment"
                 options={COMMITMENTS}
-                selected={commitments}
-                onToggle={(value) => toggle(commitments, setCommitments, value)}
+                value={commitment}
+                onChange={setCommitment}
               />
-              <FilterGroup
+              <FilterDropdown
                 label="Location"
                 options={LOCATION_TYPES}
-                selected={locationTypes}
-                onToggle={(value) => toggle(locationTypes, setLocationTypes, value)}
+                value={locationType}
+                onChange={setLocationType}
               />
             </div>
 

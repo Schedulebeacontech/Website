@@ -10,6 +10,7 @@ export interface JobSection {
 export interface OpenRole {
   slug: string;
   title: string;
+  postingPath: string;
   applyPath: string;
   company: string;
   department: Department;
@@ -30,6 +31,7 @@ export const openRoles: OpenRole[] = [
   {
     slug: "engineering-lead",
     title: "Engineering Lead",
+    postingPath: "/careers/engineering-lead",
     applyPath: "/careers/apply/engineering-lead",
     company: "Schedule Beacon LLC",
     department: "Technical",

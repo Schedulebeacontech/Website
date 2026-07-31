@@ -31,34 +31,19 @@ export function ApplyEngineeringLead() {
         <div className="max-w-3xl mx-auto px-6 relative z-10">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
             <Link
-              to="/careers"
+              to={role.postingPath}
               className="inline-flex items-center gap-1.5 text-sm text-[var(--midnight-blue)]/50 hover:text-[var(--midnight-blue)] transition-colors mb-4"
             >
               <ArrowLeft className="w-3.5 h-3.5" />
-              Back to careers
+              Back to posting
             </Link>
-
-            <div className="flex flex-wrap items-center gap-2 mb-3">
-              <span
-                className="inline-block text-xs bg-[var(--university-gold)]/15 text-[var(--midnight-blue)] px-3 py-1 rounded-full"
-                style={{ fontWeight: 600 }}
-              >
-                {role.department}
-              </span>
-              <span
-                className="inline-block text-xs bg-[var(--soft-grey)] text-[var(--midnight-blue)]/60 px-3 py-1 rounded-full"
-                style={{ fontWeight: 600 }}
-              >
-                {role.commitment}
-              </span>
-            </div>
 
             <h1 className="text-4xl lg:text-5xl text-[var(--midnight-blue)] mb-2" style={{ lineHeight: 1.1 }}>
               {role.title}
             </h1>
             <p className="text-[var(--midnight-blue)]/50 mb-5">{role.company}</p>
 
-            <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-[var(--midnight-blue)]/65">
+            <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-[var(--midnight-blue)]/65 mb-4">
               <div className="flex items-center gap-2">
                 <Clock className="w-4 h-4 text-[var(--midnight-blue)]/40" />
                 {role.hours}
@@ -72,66 +57,20 @@ export function ApplyEngineeringLead() {
                 {role.compensation}
               </div>
             </div>
-          </motion.div>
-        </div>
-      </section>
 
-      {/* ── Full Posting ────────────────────────────────────── */}
-      <section className="py-16 bg-white border-b border-gray-100">
-        <div className="max-w-3xl mx-auto px-6">
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="space-y-3 mb-8"
-          >
-            <p className="text-[var(--midnight-blue)]/65" style={{ lineHeight: 1.8 }}>
-              {role.intro}
+            <p className="text-[var(--midnight-blue)]/55">
+              Want the full role description again?{" "}
+              <Link to={role.postingPath} className="underline underline-offset-2" style={{ fontWeight: 600 }}>
+                View the posting
+              </Link>
+              .
             </p>
           </motion.div>
-
-          <div className="space-y-8">
-            {role.sections.map((section) => (
-              <motion.div
-                key={section.heading}
-                initial={{ opacity: 0, y: 12 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4 }}
-              >
-                <h2
-                  className="text-[var(--midnight-blue)] text-sm mb-3 uppercase tracking-wide"
-                  style={{ fontWeight: 700, letterSpacing: "0.06em", fontSize: "0.75rem" }}
-                >
-                  {section.heading}
-                </h2>
-                {section.items.length === 1 ? (
-                  <p className="text-[var(--midnight-blue)]/65 text-sm" style={{ lineHeight: 1.8 }}>
-                    {section.items[0]}
-                  </p>
-                ) : (
-                  <ul className="space-y-2">
-                    {section.items.map((item, i) => (
-                      <li
-                        key={i}
-                        className="flex items-start gap-3 text-[var(--midnight-blue)]/65 text-sm"
-                        style={{ lineHeight: 1.7 }}
-                      >
-                        <span className="w-1.5 h-1.5 rounded-full bg-[var(--university-gold)] mt-2 shrink-0" />
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </motion.div>
-            ))}
-          </div>
         </div>
       </section>
 
       {/* ── Application Form ────────────────────────────────── */}
-      <section className="py-20 bg-[var(--soft-grey)]/30">
+      <section className="py-20 bg-white">
         <div className="max-w-2xl mx-auto px-6">
           <motion.div
             initial={{ opacity: 0, y: 16 }}
@@ -139,15 +78,10 @@ export function ApplyEngineeringLead() {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <h2 className="text-2xl text-[var(--midnight-blue)] mb-6 text-center" style={{ fontWeight: 700 }}>
-              Apply for {role.title}
-            </h2>
-            <div className="bg-white border border-gray-100 rounded-2xl p-7 md:p-8">
-              <JobApplicationForm
-                position={role.title}
-                confirmationNote="Thanks for applying to be our Engineering Lead. We'll review your background and reach out if it looks like a fit."
-              />
-            </div>
+            <JobApplicationForm
+              position={role.title}
+              confirmationNote="Thanks for applying to be our Engineering Lead. We'll review your background and reach out if it looks like a fit."
+            />
           </motion.div>
         </div>
       </section>
