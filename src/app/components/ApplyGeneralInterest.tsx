@@ -1,5 +1,5 @@
 import { motion } from "motion/react";
-import { ArrowLeft, Sparkles } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import { Link } from "react-router";
 import { JobApplicationForm } from "./JobApplicationForm";
 import logoIcon from "../../assets/logo-watermark-hires.png";
@@ -29,19 +29,12 @@ export function ApplyGeneralInterest() {
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
             <Link
               to="/careers"
-              className="inline-flex items-center gap-1.5 text-sm text-[var(--midnight-blue)]/50 hover:text-[var(--midnight-blue)] transition-colors mb-6"
+              className="inline-flex items-center gap-1.5 text-sm text-[var(--midnight-blue)]/50 hover:text-[var(--midnight-blue)] transition-colors mb-4"
             >
               <ArrowLeft className="w-3.5 h-3.5" />
               Back to careers
             </Link>
 
-            <span
-              className="inline-flex items-center gap-1.5 text-sm bg-[var(--university-gold)]/15 text-[var(--midnight-blue)] px-4 py-1.5 rounded-full mb-5"
-              style={{ fontWeight: 600 }}
-            >
-              <Sparkles className="w-3.5 h-3.5" />
-              General Interest
-            </span>
             <h1 className="text-4xl lg:text-5xl text-[var(--midnight-blue)] mb-5" style={{ lineHeight: 1.1 }}>
               Get on our radar
             </h1>
